@@ -509,59 +509,12 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
                     log.includes('[Error]') || log.includes('[Fail]') ? 'text-red-400' :
                     log.includes('[Success]') ? 'text-green-400' :
                     log.includes('LIMIT REACHED') ? 'text-red-500 font-bold' :
-                    log.includes('[Latency]') ? 'text-amber-400/80 font-mono text-xs' :
                     log.includes('DB Sync') || log.includes('Pausing') ? 'text-indigo-300' :
                     'text-slate-300'
                   }`}
                 >
                   <span className="opacity-50 mr-2">{new Date().toLocaleTimeString().split(' ')[0]}</span>
-                  {log.includes('[Latency]') ? (
-                    <span>
-                      <span className="text-amber-500 font-bold">[Latency]</span>
-                      {' '}
-                      {(() => {
-                        const after = log.split('[Latency]')[1] || '';
-                        const mcMatch = after.match(/MC\s+(\S+):/);
-                        const totalMatch = after.match(/total=(\d+)ms/);
-                        const rest = after.replace(/.*total=\d+ms\s*\|\s*/, '');
-                        return (
-                          <>
-                            {mcMatch && <span className="text-slate-300">MC {mcMatch[1]}: </span>}
-                            {totalMatch && (
-                              <span className={`font-bold ${
-                                Number(totalMatch[1]) > 3000 ? 'text-red-400' :
-                                Number(totalMatch[1]) > 1500 ? 'text-amber-400' :
-                                'text-green-400'
-                              }`}>
-                                {totalMatch[1]}ms
-                              </span>
-                            )}
-                            <span className="text-slate-500 mx-1">|</span>
-                            {rest.split(/\s{2,}/).map((part, j) => {
-                              const m = part.match(/^(\w+)=(\d+)ms\|(\d+)\|([^\|]+?)(?:\|(\d+att))?$/);
-                              if (!m) return <span key={j} className="text-slate-500">{part} </span>;
-                              const [, label, ms, status, size, att] = m;
-                              return (
-                                <span key={j} className="mr-3">
-                                  <span className="text-slate-500">{label}=</span>
-                                  <span className={
-                                    Number(ms) > 2000 ? 'text-red-400' :
-                                    Number(ms) > 800 ? 'text-amber-400' :
-                                    'text-green-400'
-                                  }>{ms}ms</span>
-                                  <span className="text-slate-600">|</span>
-                                  <span className={status === '200' ? 'text-green-500/70' : 'text-red-400/70'}>{status}</span>
-                                  <span className="text-slate-600">|</span>
-                                  <span className="text-slate-400">{size}</span>
-                                  {att && <><span className="text-slate-600">|</span><span className="text-orange-400">{att}</span></>}
-                                </span>
-                              );
-                            })}
-                          </>
-                        );
-                      })()}
-                    </span>
-                  ) : log}
+                  {log}
                 </div>
               ))}
               <div ref={logsEndRef} />
