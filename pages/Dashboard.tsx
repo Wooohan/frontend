@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts';
-import { Users, Database, Activity, TrendingUp, ArrowUpRight, ArrowDownRight, RefreshCw, MoreHorizontal, Truck, Shield } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area, LineChart, Line } from 'recharts';
+import { Users, Database, Activity, TrendingUp, ArrowUpRight, ArrowDownRight, RefreshCw, MoreHorizontal, Zap, Shield } from 'lucide-react';
 import { DashboardStats, fetchDashboardStatsFromBackend } from '../services/backendApiService';
 
 interface DashboardProps {
@@ -10,32 +10,13 @@ interface DashboardProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div style={{background:'#1A1C27', border:'1px solid rgba(124,92,252,0.2)', borderRadius:12, padding:'10px 14px', boxShadow:'0 8px 30px rgba(0,0,0,0.4)'}}>
+      <div className="bg-slate-900/95 border border-purple-500/30 rounded-xl px-4 py-3 shadow-2xl backdrop-blur">
         <p className="text-xs text-slate-400 mb-1">{label}</p>
-        <p className="text-sm font-bold text-white">{payload[0]?.value?.toLocaleString()}</p>
+        <p className="text-sm font-bold text-purple-300">{payload[0]?.value?.toLocaleString()}</p>
       </div>
     );
   }
   return null;
-};
-
-// Mini sparkline area chart for card
-const MiniSparkline = ({ color }: { color: string }) => {
-  const data = [4, 7, 5, 9, 6, 11, 8, 13, 10, 15];
-  const points = data.map((v, i) => `${(i / (data.length - 1)) * 100},${100 - (v / 15) * 100}`).join(' ');
-  const fillPoints = `0,100 ${points} 100,100`;
-  return (
-    <svg viewBox="0 0 100 50" className="w-full h-12" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id={`sg-${color}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <polygon points={fillPoints} fill={`url(#sg-${color})`} />
-      <polyline points={points} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }) => {
@@ -66,156 +47,161 @@ export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }
   const other = stats?.other ?? 0;
 
   const entityData = [
-    { name: 'May', value: Math.round(activeCarriers * 0.6) },
-    { name: 'Jun', value: Math.round(activeCarriers * 0.3) },
-    { name: 'Jul', value: Math.round(activeCarriers * 0.5) },
-    { name: 'Aug', value: Math.round(activeCarriers * 0.8) },
-    { name: 'Sep', value: activeCarriers, active: true },
-    { name: 'Oct', value: Math.round(activeCarriers * 1.1) },
-    { name: 'Nov', value: Math.round(activeCarriers * 0.45) },
+    { name: 'Authorized', value: activeCarriers, color: '#34d399' },
+    { name: 'Not Auth', value: notAuthorized, color: '#f87171' },
+    { name: 'Other', value: other, color: '#fbbf24' },
   ];
 
   const statCards = [
     {
-      label: 'Total in Database',
+      label: 'Total in DB',
       value: totalScraped.toLocaleString(),
-      subValue: 'records',
       icon: Database,
-      color: '#7C5CFC',
+      color: 'text-blue-400',
+      bg: 'bg-blue-500/10',
+      border: 'border-blue-500/20',
+      gradient: 'from-blue-500/20 to-blue-600/10',
       trend: '+2.4%',
       up: true,
-      sparkColor: '#7C5CFC',
     },
     {
       label: 'Active Carriers',
       value: activeCarriers.toLocaleString(),
-      subValue: 'authorized',
-      icon: Truck,
-      color: '#10b981',
+      icon: Users,
+      color: 'text-emerald-400',
+      bg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/20',
+      gradient: 'from-emerald-500/20 to-emerald-600/10',
       trend: '+5.1%',
       up: true,
-      sparkColor: '#10b981',
     },
     {
       label: 'Brokers',
       value: brokers.toLocaleString(),
-      subValue: 'registered',
-      icon: Users,
-      color: '#f59e0b',
+      icon: Activity,
+      color: 'text-purple-400',
+      bg: 'bg-purple-500/10',
+      border: 'border-purple-500/20',
+      gradient: 'from-purple-500/20 to-purple-600/10',
       trend: '+1.2%',
       up: true,
-      sparkColor: '#f59e0b',
     },
     {
-      label: 'Email Coverage',
+      label: 'Email Rate',
       value: `${emailRate}%`,
-      subValue: 'with contact',
-      icon: Activity,
-      color: '#ef4444',
+      icon: TrendingUp,
+      color: 'text-indigo-400',
+      bg: 'bg-indigo-500/10',
+      border: 'border-indigo-500/20',
+      gradient: 'from-indigo-500/20 to-indigo-600/10',
       trend: '-0.3%',
       up: false,
-      sparkColor: '#ef4444',
     },
   ];
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 animate-fade-up" style={{opacity: 0, animationFillMode: 'forwards'}}>
-      {/* Background decorative orbs */}
-      <div className="glow-orb" style={{width:400, height:400, background:'rgba(124,92,252,0.06)', top:-100, right:-100, animationDelay:'0s'}} />
-      <div className="glow-orb" style={{width:300, height:300, background:'rgba(16,185,129,0.04)', bottom:200, left:-50, animationDelay:'3s'}} />
-
+    <div className="p-6 lg:p-8 space-y-8 animate-fade-in">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="heading-display text-2xl text-white tracking-tight">Dashboard</h1>
-          <p className="text-slate-500 text-sm mt-1 font-light">
-            {loading ? 'Syncing carrier data...' : `${totalScraped.toLocaleString()} carriers loaded`}
+          <h1 className="text-3xl font-bold text-white tracking-tight">Dashboard</h1>
+          <p className="text-slate-400 text-sm mt-2">
+            {loading ? 'Loading carrier data...' : `${totalScraped.toLocaleString()} carriers in database`}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full ${
+          <div className={`flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border transition-all ${
             loading
-              ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
-              : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+              ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+              : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
           }`}>
-            <span className="dot-live" style={{width:6,height:6, background: loading ? '#f59e0b' : '#34d399', boxShadow: loading ? '0 0 8px rgba(245,158,11,0.7)' : '0 0 8px rgba(52,211,153,0.7)'}}></span>
-            {loading ? 'Syncing...' : 'System Operational'}
+            <span className={`w-2 h-2 rounded-full ${loading ? 'bg-amber-400' : 'bg-emerald-400'} animate-pulse`}></span>
+            {loading ? 'Loading...' : 'System Operational'}
           </div>
-          <button className="btn-ghost p-2 rounded-xl">
+          <button className="p-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.08] transition-all hover:border-purple-500/20">
             <RefreshCw className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      {/* Stat Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         {statCards.map((stat, idx) => (
-          <div key={idx} className="stat-card p-5 cursor-default">
-            {/* Colored dot top right */}
-            <div className="flex items-start justify-between mb-3">
-              <div className="p-2.5 rounded-xl" style={{background: `${stat.color}15`}}>
-                <stat.icon className="w-4 h-4" style={{color: stat.color}} />
+          <div
+            key={idx}
+            className={`stat-card premium-card group cursor-default relative overflow-hidden rounded-2xl p-6 transition-all duration-300`}
+          >
+            {/* Gradient background overlay */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+            
+            {/* Content */}
+            <div className="relative z-10">
+              <div className="flex items-start justify-between mb-5">
+                <div className={`p-3 rounded-xl ${stat.bg} border ${stat.border} group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                </div>
+                <button className="text-slate-600 hover:text-slate-300 transition-colors opacity-0 group-hover:opacity-100">
+                  <MoreHorizontal className="w-4 h-4" />
+                </button>
               </div>
-              <button className="text-slate-700 hover:text-slate-500 transition-colors">
-                <MoreHorizontal className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="mb-3">
-              <p className="text-slate-500 text-xs font-medium mb-1">{stat.label}</p>
-              <p className="heading-display text-2xl text-white tracking-tight">
-                {loading ? <span className="skeleton inline-block w-20 h-7" /> : stat.value}
-              </p>
-              <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                {stat.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                <span>{stat.trend}</span>
-                <span className="text-slate-600 font-normal ml-1">vs last month</span>
+              <div>
+                <p className="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wide">{stat.label}</p>
+                <p className="text-3xl font-bold text-white tracking-tight mb-3">
+                  {loading ? (
+                    <span className="inline-block w-24 h-8 bg-slate-700/50 rounded-lg animate-pulse" />
+                  ) : stat.value}
+                </p>
+                <div className={`flex items-center gap-1.5 text-xs font-semibold ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {stat.up ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+                  <span>{stat.trend}</span>
+                  <span className="text-slate-500 font-normal">vs last month</span>
+                </div>
               </div>
             </div>
-
-            {/* Sparkline */}
-            <MiniSparkline color={stat.sparkColor} />
           </div>
         ))}
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Main Chart — Analytics style from ref */}
-        <div className="lg:col-span-2 card p-6" style={{background:'#F4F3FF', color:'#1a1628'}}>
-          <div className="flex items-start justify-between mb-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Bar Chart */}
+        <div className="lg:col-span-2 premium-card rounded-2xl p-7">
+          <div className="flex items-center justify-between mb-7">
             <div>
-              <h3 className="heading-display text-xl font-bold" style={{color:'#1a1628'}}>Analytics</h3>
-              <p className="text-sm mt-0.5" style={{color:'rgba(26,22,40,0.5)'}}>
-                Optimize your carrier pipeline
-              </p>
+              <h3 className="text-lg font-bold text-white">Authority Status</h3>
+              <p className="text-xs text-slate-400 mt-1">Carrier authorization distribution</p>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold" style={{color:'#1a1628', fontFamily:'Syne,sans-serif'}}>
-                {loading ? '—' : totalScraped.toLocaleString()}
-                <span className="text-sm font-normal opacity-50">.00</span>
-              </p>
+            <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
+              <Shield className="w-4 h-4 text-purple-400" />
             </div>
           </div>
-
           {totalScraped === 0 ? (
-            <div className="h-[220px] flex flex-col items-center justify-center" style={{color:'rgba(26,22,40,0.3)'}}>
-              <Database className="w-10 h-10 mb-3 opacity-30" />
-              <p className="text-sm">Run the scraper to populate carrier data.</p>
+            <div className="h-[280px] flex flex-col items-center justify-center text-slate-600">
+              <Database className="w-12 h-12 mb-4 opacity-20" />
+              <p className="text-sm">No carrier data available</p>
             </div>
           ) : (
-            <div className="h-[220px] mt-4">
+            <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={entityData} barSize={36} barGap={6}>
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'rgba(26,22,40,0.45)', fontSize: 12, fontFamily: 'DM Sans' }} />
-                  <YAxis hide />
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(124,92,252,0.08)', radius: 8 }} />
-                  <Bar dataKey="value" radius={[10, 10, 0, 0]}>
+                <BarChart data={entityData} barSize={52}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(168,85,247,0.05)" vertical={false} />
+                  <XAxis
+                    dataKey="name"
+                    stroke="#64748b"
+                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 500 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    stroke="#64748b"
+                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(168,85,247,0.08)' }} />
+                  <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                     {entityData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={entry.active ? '#8B5CF6' : 'rgba(139,92,246,0.25)'}
-                      />
+                      <Cell key={`cell-${index}`} fill={entry.color} fillOpacity={0.9} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -224,50 +210,74 @@ export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }
           )}
         </div>
 
-        {/* Quick Stats — dark card */}
-        <div className="card p-6 flex flex-col">
-          <div className="mb-5">
-            <h3 className="heading-display text-base text-white">Data Enrichment</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Coverage across all records</p>
+        {/* Quick Stats */}
+        <div className="premium-card rounded-2xl p-7">
+          <div className="mb-7">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg font-bold text-white">Data Enrichment</h3>
+              <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                <Zap className="w-4 h-4 text-indigo-400" />
+              </div>
+            </div>
+            <p className="text-xs text-slate-400">Database metrics</p>
           </div>
-          <div className="flex-1 space-y-4">
+          <div className="space-y-4">
             {[
-              { label: 'Safety Rating', value: stats?.with_safety_rating ?? 0, fillClass: 'progress-fill-violet' },
-              { label: 'Insurance Data', value: stats?.with_insurance ?? 0, fillClass: 'progress-fill-green' },
-              { label: 'Inspections', value: stats?.with_inspections ?? 0, fillClass: 'progress-fill-violet' },
-              { label: 'Crash Records', value: stats?.with_crashes ?? 0, fillClass: 'progress-fill-red' },
+              { label: 'Safety Rating', value: stats?.with_safety_rating ?? 0, color: 'from-blue-500 to-blue-600', icon: '📊' },
+              { label: 'Insurance', value: stats?.with_insurance ?? 0, color: 'from-emerald-500 to-emerald-600', icon: '🛡️' },
+              { label: 'Inspections', value: stats?.with_inspections ?? 0, color: 'from-purple-500 to-purple-600', icon: '✓' },
+              { label: 'Crashes', value: stats?.with_crashes ?? 0, color: 'from-red-500 to-red-600', icon: '⚠️' },
             ].map((item, i) => {
               const pct = totalScraped > 0 ? Math.round((item.value / totalScraped) * 100) : 0;
               return (
-                <div key={i} className="space-y-1.5">
+                <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-slate-400">{item.label}</span>
-                    <span className="text-xs font-bold text-white">{loading ? '—' : `${pct}%`}</span>
+                    <span className="text-xs text-slate-300 font-medium">{item.label}</span>
+                    <span className="text-xs font-bold text-white">{loading ? '—' : item.value.toLocaleString()}</span>
                   </div>
-                  <div className="progress-track h-1.5">
-                    <div className={`h-full ${item.fillClass}`} style={{ width: loading ? '0%' : `${pct}%` }} />
+                  <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-white/[0.08]">
+                    <div
+                      className={`h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-700`}
+                      style={{ width: loading ? '0%' : `${pct}%` }}
+                    />
                   </div>
-                  <p className="text-[10px] text-slate-600">{loading ? '—' : item.value.toLocaleString()} records</p>
+                  <p className="text-[11px] text-slate-500">{pct}% of total</p>
                 </div>
               );
             })}
           </div>
+        </div>
+      </div>
 
-          {/* Status breakdown */}
-          <div className="mt-5 pt-4 border-t border-white/[0.04]">
-            <p className="section-label mb-3">Authority Status</p>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { label: 'Auth.', value: activeCarriers, color: '#10b981' },
-                { label: 'Not Auth', value: notAuthorized, color: '#ef4444' },
-                { label: 'Other', value: other, color: '#f59e0b' },
-              ].map((s, i) => (
-                <div key={i} className="rounded-xl p-2.5 text-center" style={{background:'rgba(255,255,255,0.03)'}}>
-                  <div className="text-sm font-bold" style={{color: s.color}}>{loading ? '—' : s.value.toLocaleString()}</div>
-                  <div className="text-[10px] text-slate-600 mt-0.5">{s.label}</div>
-                </div>
-              ))}
+      {/* Bottom insights */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="premium-card rounded-2xl p-6">
+          <h4 className="text-base font-bold text-white mb-4">System Health</h4>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+              <span className="text-sm text-slate-300">Database Status</span>
+              <span className="text-xs font-bold text-emerald-400">Healthy</span>
             </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+              <span className="text-sm text-slate-300">API Response</span>
+              <span className="text-xs font-bold text-emerald-400">Normal</span>
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+              <span className="text-sm text-slate-300">Last Update</span>
+              <span className="text-xs font-bold text-slate-400">2 min ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="premium-card rounded-2xl p-6">
+          <h4 className="text-base font-bold text-white mb-4">Quick Actions</h4>
+          <div className="space-y-3">
+            <button className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-semibold hover:from-purple-500 hover:to-purple-600 transition-all hover:shadow-lg hover:shadow-purple-500/30">
+              Run Scraper
+            </button>
+            <button className="w-full px-4 py-3 rounded-lg bg-white/[0.05] border border-white/[0.08] text-slate-300 text-sm font-semibold hover:bg-white/[0.08] hover:border-purple-500/20 transition-all">
+              Export Data
+            </button>
           </div>
         </div>
       </div>
