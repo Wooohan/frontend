@@ -84,7 +84,7 @@ const MultiSelect: React.FC<{
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
-        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500 flex items-center justify-between"
+        className="input-field w-full px-3 py-2 text-sm flex items-center justify-between"
       >
         <span className={selected.length === 0 ? 'text-slate-500' : 'text-white truncate'}>
           {selected.length === 0 ? placeholder : selected.join(', ')}
@@ -94,7 +94,7 @@ const MultiSelect: React.FC<{
       {open && (
         <div className="absolute z-50 mt-1 w-full bg-slate-800 border border-slate-700 rounded-xl shadow-xl max-h-48 overflow-y-auto custom-scrollbar">
           {options.map(opt => (
-            <label key={opt} className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 cursor-pointer text-sm text-slate-300">
+            <label key={opt} style={{display:"flex", alignItems:"center", gap:8, padding:"6px 12px", cursor:"pointer", fontSize:13, color:"#94A3B8", transition:"background 0.15s"}} onMouseEnter={e=>(e.currentTarget.style.background="rgba(124,92,252,0.08)")} onMouseLeave={e=>(e.currentTarget.style.background="")}>
               <input
                 type="checkbox"
                 checked={selected.includes(opt)}
@@ -112,26 +112,26 @@ const MultiSelect: React.FC<{
 const FilterGroup: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => {
   const [open, setOpen] = useState(true);
   return (
-    <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl overflow-hidden">
+    <div style={{background:'rgba(19,21,30,0.9)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:16}}>
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
-        <span className="flex items-center gap-2 text-xs font-black text-indigo-400 uppercase tracking-widest">
+        <span className="flex items-center gap-2 text-xs font-bold text-violet-400 uppercase tracking-widest">
           {icon} {title}
         </span>
-        {open ? <ChevronUp size={14} className="text-slate-500" /> : <ChevronDown size={14} className="text-slate-500" />}
+        {open ? <ChevronUp size={14} className="text-slate-600" /> : <ChevronDown size={14} className="text-slate-600" />}
       </button>
       {open && <div className="px-4 pb-4 space-y-3">{children}</div>}
     </div>
   );
 };
 const FilterLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1 ml-1">{children}</label>
+  <label className="block section-label mb-1 ml-1">{children}</label>
 );
 const FilterSelect: React.FC<{ name: string; value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; options: { value: string; label: string }[] }> = ({ name, value, onChange, options }) => (
-  <select name={name} value={value} onChange={onChange} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500">
+  <select name={name} value={value} onChange={onChange} className="input-field w-full px-3 py-2 text-sm">
     {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
   </select>
 );
@@ -142,9 +142,9 @@ const MinMaxInputs: React.FC<{
 }> = ({ nameMin, nameMax, valueMin, valueMax, onChange }) => (
   <div className="grid grid-cols-2 gap-2">
     <input type="number" name={nameMin} value={valueMin} onChange={onChange} placeholder="Min" min={0}
-      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+      className="input-field w-full px-3 py-2 text-sm" />
     <input type="number" name={nameMax} value={valueMax} onChange={onChange} placeholder="Max" min={0}
-      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+      className="input-field w-full px-3 py-2 text-sm" />
   </div>
 );
 export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsurance }) => {
@@ -319,26 +319,26 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
     { value: '0', label: 'No' },
   ];
   return (
-    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-purple-500/30">
+    <div className="p-6 md:p-8 h-screen flex flex-col overflow-hidden relative" style={{fontFamily:"DM Sans, sans-serif"}}>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Carrier Database</h1>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-1 tracking-tight">Carrier Database</h1>
           <p className="text-slate-400 text-sm">
-            Showing <span className="text-purple-400 font-bold">{carriers.length}</span> records
+            Showing <span className="text-indigo-400 font-bold">{carriers.length}</span> records
             {filteredCount > 0 && <span className="text-white font-bold"> of {filteredCount.toLocaleString()} total</span>}
           </p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <button
             onClick={onNavigateToInsurance}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 active:scale-95"
+            className="btn-primary flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 text-sm"
           >
             <ShieldAlert size={16} /> Batch Enrichment Pipeline
           </button>
           <button
             onClick={() => downloadCSV(carriers)}
             disabled={carriers.length === 0}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white/[0.05] hover:bg-white/[0.08] disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-white/[0.08] hover:border-purple-500/20 active:scale-95"
+            className="btn-ghost flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 text-sm disabled:opacity-50"
           >
             <Download size={16} /> Export CSV
           </button>
@@ -352,7 +352,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
           <input
             type="text"
             placeholder="Search MC#..."
-            className="w-full bg-slate-900/60 border border-purple-500/20 rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-xl"
+            className="input-field w-full pl-9 pr-3 py-3 text-sm"
             value={mcSearchTerm}
             onChange={(e) => setMcSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -365,7 +365,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
           <input
             type="text"
             placeholder="Search by Business Name..."
-            className="w-full bg-slate-900/60 border border-purple-500/20 rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-xl"
+            className="input-field w-full pl-11 pr-4 py-3 text-sm"
             value={nameSearchTerm}
             onChange={(e) => setNameSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -373,7 +373,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-purple-600 text-white border-purple-500' : 'bg-white/[0.05] text-slate-300 border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20'}`}
+          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}`}
         >
           <Zap size={16} className={showFilters ? 'fill-white' : ''} />
           {showFilters ? 'Hide Filters' : 'Advanced Filters'}
@@ -381,7 +381,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         <button
           onClick={applyFilters}
           disabled={isLoading}
-          className="px-7 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-purple-500/30 active:scale-95 flex items-center gap-2 text-sm"
+          className="btn-primary px-7 py-3 flex items-center gap-2 text-sm disabled:opacity-60"
         >
           {isLoading ? (
             <><Loader2 size={16} className="animate-spin" /> Searching...</>
@@ -391,7 +391,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </button>
       </div>
       {showFilters && (
-        <div className="mb-4 p-6 premium-card rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
+        <div className="mb-4 p-4 filter-panel overflow-y-auto max-h-[55vh] custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             <FilterGroup title="Motor Carrier" icon={<Truck size={12} />}>
               <div>
@@ -413,7 +413,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
               <div>
                 <FilterLabel>DOT Number</FilterLabel>
                 <input type="number" name="dot" value={filters.dot} onChange={handleFilterChange} placeholder="" min={0}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                  className="input-field w-full px-3 py-2 text-sm" />
               </div>
               <div>
                 <FilterLabel>Years in Business</FilterLabel>
@@ -478,27 +478,27 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 <FilterLabel>Renewal Policy Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="renewalDateFrom" value={filters.renewalDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                   <input type="date" name="renewalDateTo" value={filters.renewalDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                 </div>
               </div>
               <div>
                 <FilterLabel>Insurance Effective Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="insEffectiveDateFrom" value={filters.insEffectiveDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                   <input type="date" name="insEffectiveDateTo" value={filters.insEffectiveDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                 </div>
               </div>
               <div>
                 <FilterLabel>Insurance Cancellation Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="insCancellationDateFrom" value={filters.insCancellationDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                   <input type="date" name="insCancellationDateTo" value={filters.insCancellationDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="input-field w-full px-3 py-2 text-sm" />
                 </div>
               </div>
               <div>
@@ -551,38 +551,35 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             </FilterGroup>
           </div>
           <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-800">
-            <button
-              onClick={resetAll}
-              className="px-6 py-2.5 bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 rounded-xl text-sm font-bold transition-all border border-white/[0.08] hover:border-purple-500/20"
-            >
+            <button onClick={resetAll} className="btn-ghost px-6 py-2.5 text-sm">
               Reset All
             </button>
             <button onClick={applyFilters} disabled={isLoading}
-              className="px-8 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 flex items-center gap-2"
-            >
+              className="btn-primary px-8 py-2.5 text-sm flex items-center gap-2">
               {isLoading ? <><Loader2 size={14} className="animate-spin" /> Searching...</> : 'Apply Filters'}
             </button>
           </div>
         </div>
       )}
-      <div className="flex-1 premium-card rounded-3xl overflow-hidden flex flex-col shadow-inner min-h-0">
+      <div className="flex-1 card overflow-hidden flex flex-col min-h-0" style={{borderRadius:20}}>
         <div className="overflow-auto custom-scrollbar flex-1">
           <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/80 backdrop-blur sticky top-0 z-10 border-b border-purple-500/10">
+            <thead style={{background:"rgba(19,21,30,0.97)", backdropFilter:"blur(12px)", position:"sticky", top:0, zIndex:10, borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
               <tr>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">MC Number</th>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">Legal Name</th>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">DOT Number</th>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">Status</th>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">Entity</th>
-                <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500 text-right">View</th>
+                <th className="p-4 section-label">#</th>
+                <th className="p-4 section-label">MC Number</th>
+                <th className="p-4 section-label">Legal Name</th>
+                <th className="p-4 section-label">DOT</th>
+                <th className="p-4 section-label">Status</th>
+                <th className="p-4 section-label">Entity</th>
+                <th className="p-4 section-label text-right">View</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/50">
+            <tbody>
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="text-center py-20">
-                    <Loader2 className="w-8 h-8 text-purple-400 animate-spin mx-auto mb-3" />
+                    <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mx-auto mb-3" />
                     <p className="text-slate-400 text-sm">Loading carriers...</p>
                   </td>
                 </tr>
@@ -595,8 +592,9 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 </tr>
               ) : (
                 carriers.map((carrier, idx) => (
-                  <tr key={idx} className="hover:bg-purple-500/5 transition-colors group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
-                    <td className="p-4 font-mono text-purple-400 font-bold">{carrier.mcNumber}</td>
+                  <tr key={idx} className="table-row group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
+                    <td className="p-4 text-xs text-slate-600">{idx + 1}</td>
+                    <td className="p-4 font-mono text-sm" style={{color:"#9B7EFD", fontWeight:600}}>{carrier.mcNumber}</td>
                     <td className="p-4">
                       <div className="font-bold text-white group-hover:text-indigo-200 transition-colors truncate max-w-[250px]">{carrier.legalName}</div>
                     </td>
@@ -614,7 +612,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     <td className="p-4 text-right">
                       <button
                         onClick={(e) => { e.stopPropagation(); setSelectedDot(carrier.dotNumber); }}
-                        className="p-2 bg-white/[0.05] hover:bg-purple-600 text-slate-300 hover:text-white rounded-xl transition-all shadow-lg active:scale-95 border border-white/[0.08] hover:border-purple-500/20"
+                        className="p-2 bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl transition-all shadow-lg active:scale-95"
                       >
                         <Eye size={18} />
                       </button>
@@ -636,14 +634,14 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 0}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white/[0.05] text-white border border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="btn-ghost px-3 py-1.5 text-xs rounded-xl disabled:opacity-30 disabled:cursor-not-allowed"
             >
               Prev
             </button>
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={carriers.length < PAGE_SIZE}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white/[0.05] text-white border border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="btn-ghost px-3 py-1.5 text-xs rounded-xl disabled:opacity-30 disabled:cursor-not-allowed"
             >
               Next
             </button>
@@ -651,17 +649,17 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </div>
       )}
       {selectedCarrier && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="premium-card w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300">
-            <div className="p-4 md:p-5 border-b border-purple-500/10 bg-slate-900/30 flex justify-between items-start">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop animate-fade-up">
+          <div style={{background:"#13151E", border:"1px solid rgba(255,255,255,0.08)", borderRadius:28, boxShadow:"0 40px 120px rgba(0,0,0,0.7)"}} className="w-full max-w-7xl max-h-[95vh] overflow-hidden flex flex-col relative">
+            <div style={{padding:"20px 24px", borderBottom:"1px solid rgba(255,255,255,0.06)", background:"rgba(19,21,30,0.95)", display:"flex", justifyContent:"space-between", alignItems:"flex-start"}}>
               <div className="flex gap-4 md:gap-6 items-center">
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-purple-500/20">
+                <div style={{width:52, height:52, background:"linear-gradient(135deg, #7C5CFC, #A78BFA)", borderRadius:16, display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 8px 24px rgba(124,92,252,0.35)"}}>
                   <Truck size={20} className="md:w-8 md:h-8" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-3 mb-1">
                     <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tighter truncate max-w-[300px] md:max-w-[700px] leading-tight">{selectedCarrier.legalName}</h2>
-                    <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-500/15 text-red-300 border-red-500/40' : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-500/10 text-red-400 border-red-500/30' : 'bg-green-500/10 text-green-400 border-green-500/30'}`}>
                       {selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'Unauthorized' : 'Active Authority'}
                     </span>
                   </div>
@@ -669,7 +667,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                   <div className="flex items-center gap-2 mt-2">
                     <button 
                       onClick={() => handleCopy(selectedCarrier.dotNumber, 'dot')}
-                      className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
                     >
                       <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
                         DOT {selectedCarrier.dotNumber}
@@ -678,7 +676,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     </button>
                     <button 
                       onClick={() => handleCopy(selectedCarrier.mcNumber || '', 'mc')}
-                      className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
                     >
                       <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
                         MC {selectedCarrier.mcNumber}
@@ -699,9 +697,9 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             </div>
             <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar bg-slate-900/40">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Hash size={14} className="text-indigo-400" /> Identification
+                <div style={{background:"rgba(255,255,255,0.03)", padding:24, borderRadius:20, border:"1px solid rgba(255,255,255,0.06)"}} className="space-y-4">
+                  <h3 className="section-label flex items-center gap-2 mb-1">
+                    <Hash size={14} style={{color:"#9B7EFD"}} /> Identification
                   </h3>
                   <div className="space-y-3">
                     <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">MC/MX Number</span><span className="text-base font-black text-indigo-400 font-mono tracking-tight">{selectedCarrier.mcNumber}</span></div>
@@ -709,9 +707,9 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">DUNS Number</span><span className="text-sm font-bold text-slate-400">{selectedCarrier.dunsNumber || '--'}</span></div>
                   </div>
                 </div>
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Phone size={14} className="text-indigo-400" /> Contact Info
+                <div style={{background:"rgba(255,255,255,0.03)", padding:24, borderRadius:20, border:"1px solid rgba(255,255,255,0.06)"}} className="space-y-4">
+                  <h3 className="section-label flex items-center gap-2 mb-1">
+                    <Phone size={14} style={{color:"#9B7EFD"}} /> Contact Info
                   </h3>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
@@ -731,9 +729,9 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     </div>
                   </div>
                 </div>
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Calendar size={14} className="text-indigo-400" /> Compliance
+                <div style={{background:"rgba(255,255,255,0.03)", padding:24, borderRadius:20, border:"1px solid rgba(255,255,255,0.06)"}} className="space-y-4">
+                  <h3 className="section-label flex items-center gap-2 mb-1">
+                    <Calendar size={14} style={{color:"#9B7EFD"}} /> Compliance
                   </h3>
                   <div className="space-y-3">
                     <div className="bg-slate-900/50 p-3 rounded-2xl border border-slate-800 shadow-inner">
@@ -805,7 +803,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     </div>
                   </div>
                 </div>
-                <div className="premium-card p-8 rounded-[2rem] flex flex-col shadow-2xl">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col shadow-2xl">
                   <div className="flex items-center gap-3 mb-8">
                     <ShieldCheck size={20} className="text-emerald-400" />
                     <h4 className="text-xl font-black text-white uppercase tracking-tight">Insurance History</h4>
@@ -869,7 +867,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 </div>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="premium-card p-8 rounded-[2rem] flex flex-col gap-6 shadow-2xl relative">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl relative">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <ShieldCheck size={20} className="text-indigo-400" />
