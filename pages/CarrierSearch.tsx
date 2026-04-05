@@ -550,7 +550,8 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
               </div>
             </FilterGroup>
           </div>
-          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-            <button
+          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-800">
+            <button
               onClick={resetAll}
               className="px-6 py-2.5 bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 rounded-xl text-sm font-bold transition-all border border-white/[0.08] hover:border-purple-500/20"
             >
@@ -558,7 +559,8 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             </button>
             <button onClick={applyFilters} disabled={isLoading}
               className="px-8 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 flex items-center gap-2"
-            > className="animate-spin" /> Searching...</> : 'Apply Filters'}
+            >
+              {isLoading ? <><Loader2 size={14} className="animate-spin" /> Searching...</> : 'Apply Filters'}
             </button>
           </div>
         </div>
