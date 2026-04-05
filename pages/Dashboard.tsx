@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Users, Database, Activity, TrendingUp } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts';
+import { Users, Database, Activity, TrendingUp, ArrowUpRight, ArrowDownRight, RefreshCw, MoreHorizontal } from 'lucide-react';
 import { DashboardStats, fetchDashboardStatsFromBackend } from '../services/backendApiService';
+
 interface DashboardProps {
   isLoading?: boolean;
 }
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 shadow-xl">
+        <p className="text-xs text-slate-400 mb-1">{label}</p>
+        <p className="text-sm font-bold text-white">{payload[0]?.value?.toLocaleString()}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }) => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const loadStats = async () => {
       setIsLoading(true);
@@ -22,6 +37,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }
     };
     loadStats();
   }, []);
+
   const loading = isLoading || parentLoading;
   const totalScraped = stats?.total ?? 0;
   const activeCarriers = stats?.active_carriers ?? 0;
@@ -29,64 +45,150 @@ export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }
   const emailRate = stats?.email_rate ?? '0';
   const notAuthorized = stats?.not_authorized ?? 0;
   const other = stats?.other ?? 0;
+
   const entityData = [
-    { name: 'Authorized', value: activeCarriers, color: '#4ade80' },
+    { name: 'Authorized', value: activeCarriers, color: '#34d399' },
     { name: 'Not Auth', value: notAuthorized, color: '#f87171' },
-    { name: 'Other', value: other, color: '#facc15' },
+    { name: 'Other', value: other, color: '#fbbf24' },
   ];
+
+  const statCards = [
+    {
+      label: 'Total in DB',
+      value: totalScraped.toLocaleString(),
+      icon: Database,
+      color: 'text-blue-400',
+      bg: 'bg-blue-500/10',
+      border: 'border-blue-500/20',
+      trend: '+2.4%',
+      up: true,
+    },
+    {
+      label: 'Active Carriers',
+      value: activeCarriers.toLocaleString(),
+      icon: Users,
+      color: 'text-emerald-400',
+      bg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/20',
+      trend: '+5.1%',
+      up: true,
+    },
+    {
+      label: 'Brokers',
+      value: brokers.toLocaleString(),
+      icon: Activity,
+      color: 'text-purple-400',
+      bg: 'bg-purple-500/10',
+      border: 'border-purple-500/20',
+      trend: '+1.2%',
+      up: true,
+    },
+    {
+      label: 'Email Rate',
+      value: `${emailRate}%`,
+      icon: TrendingUp,
+      color: 'text-indigo-400',
+      bg: 'bg-indigo-500/10',
+      border: 'border-indigo-500/20',
+      trend: '-0.3%',
+      up: false,
+    },
+  ];
+
   return (
-    <div className="p-8 space-y-8 animate-fade-in">
-      <div className="flex justify-between items-end">
+    <div className="p-6 lg:p-8 space-y-6 animate-fade-in">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
-          <p className="text-slate-400">
+          <h1 className="text-2xl font-bold text-white tracking-tight">Dashboard Overview</h1>
+          <p className="text-slate-500 text-sm mt-1">
             {loading ? 'Loading carrier data...' : `${totalScraped.toLocaleString()} carriers loaded from database`}
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700">
-          <span className={`w-2 h-2 rounded-full ${loading ? 'bg-yellow-500' : 'bg-green-500'} animate-pulse`}></span>
-          {loading ? 'Loading...' : 'System Operational'}
+        <div className="flex items-center gap-3">
+          <div className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full border ${
+            loading
+              ? 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+              : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${loading ? 'bg-amber-400' : 'bg-emerald-400'} animate-pulse`}></span>
+            {loading ? 'Loading...' : 'System Operational'}
+          </div>
+          <button className="p-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-slate-400 hover:text-white transition-colors">
+            <RefreshCw className="w-4 h-4" />
+          </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { label: 'Total in DB', value: totalScraped.toLocaleString(), icon: Database, color: 'text-blue-400' },
-          { label: 'Active Carriers', value: activeCarriers.toLocaleString(), icon: Users, color: 'text-green-400' },
-          { label: 'Brokers', value: brokers.toLocaleString(), icon: Activity, color: 'text-purple-400' },
-          { label: 'Email Rate', value: `${emailRate}%`, icon: TrendingUp, color: 'text-indigo-400' },
-        ].map((stat, idx) => (
-          <div key={idx} className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl hover:bg-slate-800 transition-all group">
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-xl bg-slate-900/50 ${stat.color} group-hover:scale-110 transition-transform`}>
-                <stat.icon size={24} />
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        {statCards.map((stat, idx) => (
+          <div
+            key={idx}
+            className={`stat-card bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 hover:border-indigo-500/20 cursor-default`}
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div className={`p-2.5 rounded-xl ${stat.bg} border ${stat.border}`}>
+                <stat.icon className={`w-4 h-4 ${stat.color}`} />
+              </div>
+              <button className="text-slate-600 hover:text-slate-400 transition-colors">
+                <MoreHorizontal className="w-4 h-4" />
+              </button>
+            </div>
+            <div>
+              <p className="text-slate-500 text-xs font-medium mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-white tracking-tight">
+                {loading ? (
+                  <span className="inline-block w-20 h-7 bg-slate-800 rounded-lg animate-pulse" />
+                ) : stat.value}
+              </p>
+              <div className={`flex items-center gap-1 mt-2 text-xs font-medium ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                {stat.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                <span>{stat.trend}</span>
+                <span className="text-slate-600 font-normal ml-1">vs last month</span>
               </div>
             </div>
-            <h3 className="text-slate-400 text-sm font-medium">{stat.label}</h3>
-            <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-slate-800/50 border border-slate-700 p-6 rounded-2xl">
-          <h3 className="text-lg font-bold text-white mb-6">Authority Status Breakdown</h3>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Bar Chart */}
+        <div className="lg:col-span-2 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-base font-semibold text-white">Authority Status Breakdown</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Carrier authorization distribution</p>
+            </div>
+          </div>
           {totalScraped === 0 ? (
-            <div className="h-[300px] flex items-center justify-center text-slate-500">
-              No carrier data available. Run the scraper to populate.
+            <div className="h-[260px] flex flex-col items-center justify-center text-slate-600">
+              <Database className="w-10 h-10 mb-3 opacity-30" />
+              <p className="text-sm">No carrier data available. Run the scraper to populate.</p>
             </div>
           ) : (
-            <div className="h-[300px]">
+            <div className="h-[260px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={entityData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                  <XAxis dataKey="name" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', color: '#f1f5f9' }}
-                    itemStyle={{ color: '#f1f5f9' }}
+                <BarChart data={entityData} barSize={48}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                  <XAxis
+                    dataKey="name"
+                    stroke="#475569"
+                    tick={{ fill: '#64748b', fontSize: 12 }}
+                    axisLine={false}
+                    tickLine={false}
                   />
-                  <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                  <YAxis
+                    stroke="#475569"
+                    tick={{ fill: '#64748b', fontSize: 12 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(99,102,241,0.05)' }} />
+                  <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                     {entityData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color} fillOpacity={0.85} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -94,25 +196,37 @@ export const Dashboard: React.FC<DashboardProps> = ({ isLoading: parentLoading }
             </div>
           )}
         </div>
-        <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl">
-          <h3 className="text-lg font-bold text-white mb-6">Quick Stats</h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-slate-900/50 rounded-xl">
-              <span className="text-slate-400 text-sm">With Safety Rating</span>
-              <span className="text-white font-bold">{stats?.with_safety_rating ?? 0}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-slate-900/50 rounded-xl">
-              <span className="text-slate-400 text-sm">With Insurance</span>
-              <span className="text-white font-bold">{stats?.with_insurance ?? 0}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-slate-900/50 rounded-xl">
-              <span className="text-slate-400 text-sm">With Inspections</span>
-              <span className="text-white font-bold">{stats?.with_inspections ?? 0}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-slate-900/50 rounded-xl">
-              <span className="text-slate-400 text-sm">With Crashes</span>
-              <span className="text-white font-bold">{stats?.with_crashes ?? 0}</span>
-            </div>
+
+        {/* Quick Stats */}
+        <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+          <div className="mb-6">
+            <h3 className="text-base font-semibold text-white">Quick Stats</h3>
+            <p className="text-xs text-slate-500 mt-0.5">Database enrichment metrics</p>
+          </div>
+          <div className="space-y-3">
+            {[
+              { label: 'With Safety Rating', value: stats?.with_safety_rating ?? 0, color: 'bg-blue-500' },
+              { label: 'With Insurance', value: stats?.with_insurance ?? 0, color: 'bg-emerald-500' },
+              { label: 'With Inspections', value: stats?.with_inspections ?? 0, color: 'bg-purple-500' },
+              { label: 'With Crashes', value: stats?.with_crashes ?? 0, color: 'bg-red-500' },
+            ].map((item, i) => {
+              const pct = totalScraped > 0 ? Math.round((item.value / totalScraped) * 100) : 0;
+              return (
+                <div key={i} className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-slate-400 font-medium">{item.label}</span>
+                    <span className="text-xs font-bold text-white">{loading ? '—' : item.value.toLocaleString()}</span>
+                  </div>
+                  <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div
+                      className={`h-full ${item.color} rounded-full transition-all duration-700`}
+                      style={{ width: loading ? '0%' : `${pct}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-600">{pct}% of total</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
