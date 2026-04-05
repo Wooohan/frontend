@@ -27,32 +27,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
   const mainItems = navItems.filter(i => i.group === 'main');
   const toolItems = navItems.filter(i => i.group === 'tools');
 
-  const NavItem = ({ item }: { item: typeof navItems[0] }) => {
+  const NavItem = ({ item }: { item: typeof navItems[0]; key?: string }) => {
     const Icon = item.icon;
     const isActive = currentView === item.id;
     return (
       <button
+        key={item.id}
         onClick={() => setCurrentView(item.id as ViewState)}
-        className={`w-full flex items-center gap-3 px-3 py-2.5 nav-item relative ${isActive ? 'nav-item-active' : 'nav-item-inactive'}`}
-      >
-        <div className={`flex items-center justify-center w-8 h-8 rounded-xl transition-all duration-200 ${
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative ${
           isActive
-            ? 'bg-violet-500/20 text-violet-400'
-            : 'text-slate-600 group-hover:text-slate-300'
+            ? 'nav-active text-purple-300'
+            : 'text-slate-500 hover:text-slate-200 hover:bg-white/[0.04]'
+        }`}
+      >
+        <div className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 ${
+          isActive
+            ? 'bg-purple-500/20 text-purple-400'
+            : 'text-slate-600 group-hover:text-slate-300 group-hover:bg-white/[0.06]'
         }`}>
           <Icon className="w-4 h-4" />
         </div>
-        <span className={`text-sm font-medium flex-1 text-left ${isActive ? 'text-slate-100' : 'text-slate-500'}`}>
+        <span className={`text-sm font-medium flex-1 text-left ${isActive ? 'text-slate-200' : ''}`}>
           {item.label}
         </span>
         {item.id === 'scraper' && isAdmin && (
-          <span className="dot-live"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] animate-pulse"></span>
         )}
         {item.id === 'admin' && (
           <span className="bg-red-500/80 text-white text-[9px] px-1.5 py-0.5 rounded-md font-bold tracking-wide">ADM</span>
         )}
         {isActive && (
-          <ChevronRight className="w-3.5 h-3.5 text-violet-400/60" />
+          <ChevronRight className="w-3.5 h-3.5 text-purple-400/60" />
         )}
       </button>
     );
@@ -65,29 +70,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
 
       {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg" style={{background: 'linear-gradient(135deg, #7C5CFC, #A78BFA)', boxShadow: '0 4px 16px rgba(124,92,252,0.35)'}}>
+        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30">
           <Truck className="w-4 h-4 text-white" />
         </div>
         <div>
-          <span className="heading-display text-[15px] text-white tracking-tight">FreightIntel</span>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="dot-live" style={{width:6,height:6}}></span>
+          <span className="text-[15px] font-bold text-white tracking-tight">FreightIntel</span>
+          <div className="flex items-center gap-1 mt-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="text-[10px] text-emerald-400/80 font-medium">Live</span>
           </div>
         </div>
       </div>
 
+      {/* Divider */}
       <div className="mx-4 h-px bg-white/[0.04] mb-3" />
 
       {/* Nav */}
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
-        <p className="section-label px-3 mb-2">Navigation</p>
+        <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest px-3 mb-2">Navigation</p>
         {mainItems.map(item => <NavItem key={item.id} item={item} />)}
 
         {toolItems.length > 0 && (
           <>
             <div className="pt-4 pb-1">
-              <p className="section-label px-3">Tools</p>
+              <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest px-3">Tools</p>
             </div>
             {toolItems.map(item => <NavItem key={item.id} item={item} />)}
           </>
@@ -96,17 +102,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
 
       {/* User section */}
       <div className="p-3 border-t border-white/[0.04]">
-        <div className="rounded-2xl p-3 mb-2" style={{background: 'rgba(124,92,252,0.08)', border: '1px solid rgba(124,92,252,0.15)'}}>
+        <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/15 rounded-xl p-3 mb-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm" style={{background: 'linear-gradient(135deg, rgba(124,92,252,0.4), rgba(167,139,250,0.2))'}}>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/40 to-purple-600/40 border border-purple-500/30 flex items-center justify-center text-purple-300 font-bold text-sm">
               {user.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white truncate heading-display">{user.name}</p>
+              <p className="text-sm font-semibold text-white truncate">{user.name}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[10px] text-violet-400 font-medium capitalize">{user.plan}</span>
+                <span className="text-[10px] text-purple-400 font-medium">{user.plan}</span>
                 {user.role === 'admin' && (
-                  <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/20 px-1.5 py-0.5 rounded-md font-bold">Admin</span>
+                  <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded-md font-bold">Admin</span>
                 )}
               </div>
             </div>
@@ -114,7 +120,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
         </div>
         <button
           onClick={onLogout}
-          className="flex items-center gap-2.5 px-3 py-2 text-slate-600 hover:text-slate-300 hover:bg-white/[0.04] w-full transition-all rounded-xl group"
+          className="flex items-center gap-2.5 px-3 py-2 text-slate-500 hover:text-slate-200 hover:bg-white/[0.04] w-full transition-all rounded-lg group"
         >
           <LogOut className="w-3.5 h-3.5 group-hover:text-red-400 transition-colors" />
           <span className="text-xs font-medium">Sign Out</span>
