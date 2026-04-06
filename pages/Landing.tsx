@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Truck, ChevronRight, Check, Shield, Zap, ArrowRight, Star,
@@ -607,4 +606,3 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
     </div>
   );
 };
-```
