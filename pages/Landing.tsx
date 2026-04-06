@@ -1,10 +1,6 @@
-I've updated the `Landing.tsx` file to transition from the purple-heavy palette to a professional, high-trust **Blue & Slate** theme.
+The error occurred because the introductory text was accidentally included inside the code file. In a `.tsx` file, any text outside of valid code blocks or comments will cause a build failure.
 
-### Key Changes Made:
-* **Brand Gradients:** Shifted from `#7C5CFC` (Purple) to a crisp `#3B82F6` (Blue) and `#60A5FA` (Light Blue).
-* **Shadows & Accents:** Replaced purple-tinted shadows and borders with subtle blue and sapphire variants.
-* **Background Orbs:** Adjusted the decorative blurred background elements to use soft blue and cyan tones for a cleaner "SaaS" feel.
-* **Component States:** Updated hover states and badges to reflect the new color scheme.
+I have removed the conversational text and the markdown formatting from the file so it contains only valid TypeScript/React code.
 
 ```tsx
 import React, { useState, useEffect, useRef } from 'react';
@@ -24,7 +20,6 @@ interface LandingProps {
   onLogin: (user: User) => void;
 }
 
-// Animated counter hook
 const useCounter = (target: number, duration = 1800, start = false) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -41,7 +36,6 @@ const useCounter = (target: number, duration = 1800, start = false) => {
   return count;
 };
 
-// FAQ Item
 const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -142,14 +136,12 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
   return (
     <div style={{ minHeight: '100vh', background: '#0C0E14', color: '#E8EAF0', fontFamily: 'DM Sans, sans-serif', overflowX: 'hidden' }}>
 
-      {/* Background orbs - Blue Theme */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
         <div style={{ position: 'absolute', top: '-10%', left: '5%', width: 700, height: 700, background: 'rgba(59,130,246,0.07)', borderRadius: '50%', filter: 'blur(120px)' }} />
         <div style={{ position: 'absolute', top: '40%', right: '-10%', width: 500, height: 500, background: 'rgba(37,99,235,0.05)', borderRadius: '50%', filter: 'blur(100px)' }} />
         <div style={{ position: 'absolute', bottom: '10%', left: '30%', width: 400, height: 400, background: 'rgba(6,182,212,0.04)', borderRadius: '50%', filter: 'blur(100px)' }} />
       </div>
 
-      {/* ── NAVBAR ── */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(12,14,20,0.85)', backdropFilter: 'blur(20px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -171,10 +163,8 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </nav>
 
-      {/* ── HERO ── */}
       <section style={{ position: 'relative', zIndex: 1, paddingTop: 140, paddingBottom: 100, textAlign: 'center', padding: '140px 24px 100px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px', borderRadius: 999, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)', color: '#60A5FA', fontSize: 12, fontWeight: 600, marginBottom: 32, letterSpacing: '0.05em' }}>
             <Zap size={12} /> AUTOMATED FMCSA DATA PIPELINE
           </div>
@@ -198,7 +188,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
             </button>
           </div>
 
-          {/* Social proof */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               {[...Array(5)].map((_, i) => <Star key={i} size={14} style={{ color: '#F59E0B', fill: '#F59E0B' }} />)}
@@ -211,11 +200,9 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        {/* Hero mockup */}
         <div style={{ maxWidth: 1000, margin: '72px auto 0', position: 'relative' }}>
           <div style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05))', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 24, padding: 3, boxShadow: '0 40px 100px rgba(0,0,0,0.5), 0 0 60px rgba(59,130,246,0.1)' }}>
             <div style={{ background: '#13151E', borderRadius: 22, overflow: 'hidden' }}>
-              {/* Mock browser bar */}
               <div style={{ background: '#0F1118', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {['#EF4444','#F59E0B','#10B981'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
@@ -224,7 +211,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
                   app.freightintel.io/carrier-database
                 </div>
               </div>
-              {/* Mock table */}
               <div style={{ padding: '20px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                   <span style={{ ...S, color: 'white', fontSize: 16, fontWeight: 700 }}>Carrier Database</span>
@@ -233,7 +219,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
                     <div style={{ padding: '6px 14px', borderRadius: 10, background: 'linear-gradient(135deg, #3B82F6, #2563EB)', color: 'white', fontSize: 12 }}>Export CSV</div>
                   </div>
                 </div>
-                {/* Table head */}
                 <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr 120px 90px 80px', gap: 16, padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: 4 }}>
                   {['MC #','Legal Name','DOT','Status','Entity'].map(h => (
                     <span key={h} style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#334155' }}>{h}</span>
@@ -257,7 +242,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
               </div>
             </div>
           </div>
-          {/* Floating stat cards */}
           <div style={{ position: 'absolute', top: -16, right: -24, background: '#1A1C27', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 16, padding: '14px 20px', boxShadow: '0 16px 40px rgba(0,0,0,0.4)', display: 'none' }} className="md:block">
             <div style={{ fontSize: 10, color: '#475569', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Email Coverage</div>
             <div style={{ ...S, fontSize: 24, fontWeight: 700, color: '#60A5FA' }}>68.4%</div>
@@ -269,7 +253,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── STATS ── */}
       <section ref={statsRef} style={{ position: 'relative', zIndex: 1, padding: '60px 24px', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 0 }}>
           {[
@@ -289,7 +272,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── TRUSTED BY ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', textAlign: 'center' }}>
         <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#334155', marginBottom: 40 }}>Trusted by industry professionals</p>
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 32, maxWidth: 900, margin: '0 auto', opacity: 0.4 }}>
@@ -299,7 +281,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── FEATURE 1: SEARCH ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
           <div>
@@ -349,10 +330,8 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── FEATURE 2: PROFILES ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', background: 'rgba(19,21,30,0.5)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
-          {/* Mock profile card */}
           <div style={{ background: '#13151E', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 24, padding: 28, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
               <div style={{ width: 52, height: 52, borderRadius: 16, background: 'linear-gradient(135deg, #3B82F6, #60A5FA)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(59,130,246,0.35)' }}>
@@ -420,7 +399,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── FEATURE 3: EMAIL EXTRACTION ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
           <div>
@@ -443,7 +421,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
             </div>
           </div>
 
-          {/* Mock export UI */}
           <div style={{ background: '#13151E', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 24, padding: 28, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <div>
@@ -474,7 +451,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── TOOLS GRID ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', background: 'rgba(19,21,30,0.5)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 60 }}>
@@ -508,7 +484,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── FAQ ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
         <div style={{ maxWidth: 780, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -526,7 +501,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── CTA ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px 120px' }}>
         <div style={{ maxWidth: 780, margin: '0 auto', textAlign: 'center', background: 'linear-gradient(135deg, rgba(59,130,246,0.12), rgba(37,99,235,0.06))', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 32, padding: '72px 48px', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: -60, right: -60, width: 300, height: 300, background: 'rgba(59,130,246,0.12)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
@@ -555,7 +529,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
       <footer style={{ position: 'relative', zIndex: 1, borderTop: '1px solid rgba(255,255,255,0.05)', padding: '40px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -573,7 +546,6 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </footer>
 
-      {/* ── AUTH MODAL ── */}
       {authMode && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'rgba(8,10,16,0.85)', backdropFilter: 'blur(10px)' }}>
           <div style={{ background: '#13151E', border: '1px solid rgba(255,255,255,0.08)', width: '100%', maxWidth: 440, padding: 36, borderRadius: 24, boxShadow: '0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.1)', position: 'relative' }}>
