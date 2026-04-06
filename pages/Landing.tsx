@@ -1,8 +1,4 @@
-The error occurred because the introductory text was accidentally included inside the code file. In a `.tsx` file, any text outside of valid code blocks or comments will cause a build failure.
 
-I have removed the conversational text and the markdown formatting from the file so it contains only valid TypeScript/React code.
-
-```tsx
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Truck, ChevronRight, Check, Shield, Zap, ArrowRight, Star,
