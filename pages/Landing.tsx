@@ -15,6 +15,7 @@ interface LandingProps {
   onLogin: (user: User) => void;
 }
 
+// Animated counter hook
 const useCounter = (target: number, duration = 1800, start = false) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -31,10 +32,11 @@ const useCounter = (target: number, duration = 1800, start = false) => {
   return count;
 };
 
+// FAQ Item
 const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '1rem', overflow: 'hidden', marginBottom: 12 }}>
+    <div style={{ border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1rem', overflow: 'hidden', marginBottom: 12, background: 'rgba(255, 255, 255, 0.02)' }}>
       <button
         onClick={() => setOpen(o => !o)}
         style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', background: open ? 'rgba(79, 70, 229, 0.08)' : 'transparent', textAlign: 'left', cursor: 'pointer', border: 'none', color: '#E8EAF0', transition: 'background 0.2s' }}
@@ -72,6 +74,7 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
   }, [authMode]);
 
   const c1 = useCounter(4200000, 2000, countersStarted);
+  const c2 = useCounter(1000, 1500, countersStarted);
   const c3 = useCounter(10, 1200, countersStarted);
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -127,34 +130,29 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
 
   const S: React.CSSProperties = { fontFamily: 'Syne, sans-serif' };
 
-  // Common Styles based on your requirements
-  const primaryButtonStyle: React.CSSProperties = {
+  // Styles defined per instructions
+  const standardButton: React.CSSProperties = {
     background: '#4F46E5',
     boxShadow: '0 10px 15px -3px rgba(79, 70, 229, 0.2)',
     border: 'none',
     color: 'white',
     cursor: 'pointer',
     transition: 'all 0.2s',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontFamily: 'DM Sans, sans-serif'
   };
 
-  const secondaryButtonStyle: React.CSSProperties = {
+  const secondaryButton: React.CSSProperties = {
     background: 'rgba(255, 255, 255, 0.04)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
     color: '#CBD5E1',
     cursor: 'pointer',
-    transition: 'all 0.2s',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontFamily: 'DM Sans, sans-serif'
   };
 
-  const cardStyle: React.CSSProperties = {
+  const sectionCard: React.CSSProperties = {
     background: 'rgba(255, 255, 255, 0.02)',
     border: '1px solid rgba(255, 255, 255, 0.06)',
-    borderRadius: '1rem',
+    borderRadius: '1rem'
   };
 
   return (
@@ -162,8 +160,9 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
 
       {/* Background orbs */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-        <div style={{ position: 'absolute', top: '-10%', left: '5%', width: 700, height: 700, background: 'rgba(79, 70, 229, 0.05)', borderRadius: '50%', filter: 'blur(120px)' }} />
-        <div style={{ position: 'absolute', bottom: '10%', left: '30%', width: 400, height: 400, background: 'rgba(59, 130, 246, 0.03)', borderRadius: '50%', filter: 'blur(100px)' }} />
+        <div style={{ position: 'absolute', top: '-10%', left: '5%', width: 700, height: 700, background: 'rgba(79, 70, 229, 0.07)', borderRadius: '50%', filter: 'blur(120px)' }} />
+        <div style={{ position: 'absolute', top: '40%', right: '-10%', width: 500, height: 500, background: 'rgba(99, 102, 241, 0.05)', borderRadius: '50%', filter: 'blur(100px)' }} />
+        <div style={{ position: 'absolute', bottom: '10%', left: '30%', width: 400, height: 400, background: 'rgba(59, 130, 246, 0.04)', borderRadius: '50%', filter: 'blur(100px)' }} />
       </div>
 
       {/* ── NAVBAR ── */}
@@ -176,10 +175,10 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
             <span style={{ ...S, fontSize: 17, fontWeight: 700, color: 'white' }}>FreightIntel</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButtonStyle, padding: '8px 16px', borderRadius: 10, fontSize: 14, fontWeight: 500 }}>
+            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButton, padding: '8px 16px', borderRadius: 10, fontSize: 14, fontWeight: 500 }}>
               Sign In
             </button>
-            <button onClick={() => setAuthMode('register')} style={{ ...primaryButtonStyle, padding: '8px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600, gap: 6 }}>
+            <button onClick={() => setAuthMode('register')} style={{ ...standardButton, padding: '8px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
               Get Started <ArrowRight size={14} />
             </button>
           </div>
@@ -189,7 +188,8 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
       {/* ── HERO ── */}
       <section style={{ position: 'relative', zIndex: 1, paddingTop: 140, paddingBottom: 100, textAlign: 'center', padding: '140px 24px 100px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px', borderRadius: 999, background: 'rgba(79, 70, 229, 0.1)', border: '1px solid rgba(79, 70, 229, 0.2)', color: '#818CF8', fontSize: 12, fontWeight: 600, marginBottom: 32, letterSpacing: '0.05em' }}>
+          {/* Badge */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px', borderRadius: 999, background: 'rgba(79, 70, 229, 0.1)', border: '1px solid rgba(79, 70, 229, 0.25)', color: '#818CF8', fontSize: 12, fontWeight: 600, marginBottom: 32, letterSpacing: '0.05em' }}>
             <Zap size={12} /> AUTOMATED FMCSA DATA PIPELINE
           </div>
 
@@ -200,24 +200,37 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
           </h1>
 
           <p style={{ fontSize: 18, color: '#64748B', maxWidth: 560, margin: '0 auto 40px', lineHeight: 1.7 }}>
-            The ultimate motor carrier research platform for insurance professionals. Find carriers, extract contacts, and verify authority — all in one place.
+            The ultimate motor carrier research platform for insurance professionals. Find carriers, extract contacts, verify authority, and export — all in one place.
           </p>
 
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 56 }}>
-            <button onClick={() => setAuthMode('register')} style={{ ...primaryButtonStyle, padding: '14px 32px', borderRadius: 14, fontSize: 15, fontWeight: 700, gap: 8 }}>
+            <button onClick={() => setAuthMode('register')} style={{ ...standardButton, padding: '14px 32px', borderRadius: 14, fontSize: 15, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               Start Free Trial <ChevronRight size={16} />
             </button>
-            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButtonStyle, padding: '14px 32px', borderRadius: 14, fontSize: 15, fontWeight: 600, gap: 8 }}>
+            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButton, padding: '14px 32px', borderRadius: 14, fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
               <BarChart2 size={16} /> Sign In
             </button>
+          </div>
+
+          {/* Social proof */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {[...Array(5)].map((_, i) => <Star key={i} size={14} style={{ color: '#F59E0B', fill: '#F59E0B' }} />)}
+            </div>
+            <span style={{ color: '#475569', fontSize: 13 }}>Trusted by 500+ insurance professionals</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 999, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34D399', boxShadow: '0 0 8px rgba(52,211,153,0.7)', display: 'inline-block' }} />
+              <span style={{ fontSize: 12, color: '#34D399', fontWeight: 600 }}>Live FMCSA Sync</span>
+            </div>
           </div>
         </div>
 
         {/* Hero mockup */}
         <div style={{ maxWidth: 1000, margin: '72px auto 0', position: 'relative' }}>
-          <div style={{ ...cardStyle, padding: 3, boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }}>
+          <div style={{ ...sectionCard, padding: 3, boxShadow: '0 40px 100px rgba(0,0,0,0.5), 0 0 60px rgba(79,70,229,0.1)' }}>
             <div style={{ background: '#0F1118', borderRadius: 'calc(1rem - 3px)', overflow: 'hidden' }}>
-              <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              {/* Mock browser bar */}
+              <div style={{ background: '#0F1118', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {['#EF4444','#F59E0B','#10B981'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
                 </div>
@@ -230,10 +243,11 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                   <span style={{ ...S, color: 'white', fontSize: 16, fontWeight: 700 }}>Carrier Database</span>
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <div style={{ ...secondaryButtonStyle, padding: '6px 14px', borderRadius: 10, fontSize: 12 }}>Advanced Filters</div>
-                    <div style={{ ...primaryButtonStyle, padding: '6px 14px', borderRadius: 10, fontSize: 12 }}>Export CSV</div>
+                    <div style={{ ...secondaryButton, padding: '6px 14px', borderRadius: 10, fontSize: 12 }}>Advanced Filters</div>
+                    <div style={{ ...standardButton, padding: '6px 14px', borderRadius: 10, fontSize: 12 }}>Export CSV</div>
                   </div>
                 </div>
+                {/* Table head */}
                 <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr 120px 90px 80px', gap: 16, padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: 4, textAlign: 'left' }}>
                   {['MC #','Legal Name','DOT','Status','Entity'].map(h => (
                     <span key={h} style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#334155' }}>{h}</span>
@@ -243,17 +257,28 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
                   { mc: 'MC-123456', name: 'Summit Logistics LLC', dot: '3821944', status: 'ACTIVE', entity: 'CARRIER', active: true },
                   { mc: 'MC-789012', name: 'Blue Ridge Transport', dot: '2914532', status: 'ACTIVE', entity: 'CARRIER', active: true },
                   { mc: 'MC-345678', name: 'Horizon Freight Brokers', dot: '1823771', status: 'INACTIVE', entity: 'BROKER', active: false },
+                  { mc: 'MC-901234', name: 'Eagle Eye Trucking Co.', dot: '4012893', status: 'ACTIVE', entity: 'CARRIER', active: true },
+                  { mc: 'MC-567890', name: 'Pacific Rim Carriers', dot: '3456781', status: 'ACTIVE', entity: 'CARRIER', active: true },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 120px 90px 80px', gap: 16, padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.03)', alignItems: 'center', textAlign: 'left' }}>
-                    <span style={{ fontSize: 12, color: '#818CF8', fontWeight: 600, fontFamily: 'monospace' }}>{row.mc}</span>
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 120px 90px 80px', gap: 16, padding: '10px 12px', borderRadius: 10, background: i === 1 ? 'rgba(79,70,229,0.07)' : 'transparent', borderBottom: '1px solid rgba(255,255,255,0.03)', alignItems: 'center', textAlign: 'left' }}>
+                    <span style={{ fontSize: 12, color: '#6366F1', fontWeight: 600, fontFamily: 'monospace' }}>{row.mc}</span>
                     <span style={{ fontSize: 13, color: '#CBD5E1', fontWeight: 500 }}>{row.name}</span>
                     <span style={{ fontSize: 12, color: '#475569', fontFamily: 'monospace' }}>{row.dot}</span>
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: row.active ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: row.active ? '#34D399' : '#F87171', border: `1px solid ${row.active ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}` }}>{row.status}</span>
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', color: '#94A3B8', border: '1px solid rgba(255,255,255,0.1)' }}>{row.entity}</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: row.active ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: row.active ? '#34D399' : '#F87171', border: `1px solid ${row.active ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}`, display: 'inline-block' }}>{row.status}</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: row.entity === 'CARRIER' ? 'rgba(79,70,229,0.1)' : 'rgba(251,146,60,0.1)', color: row.entity === 'CARRIER' ? '#818CF8' : '#FB923C', border: `1px solid ${row.entity === 'CARRIER' ? 'rgba(79,70,229,0.2)' : 'rgba(251,146,60,0.2)'}`, display: 'inline-block' }}>{row.entity}</span>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+          {/* Floating stat cards */}
+          <div style={{ position: 'absolute', top: -16, right: -24, background: '#1A1C27', border: '1px solid rgba(79,70,229,0.2)', borderRadius: 16, padding: '14px 20px', boxShadow: '0 16px 40px rgba(0,0,0,0.4)', display: 'none' }} className="md:block">
+            <div style={{ fontSize: 10, color: '#475569', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Email Coverage</div>
+            <div style={{ ...S, fontSize: 24, fontWeight: 700, color: '#818CF8' }}>68.4%</div>
+          </div>
+          <div style={{ position: 'absolute', bottom: 24, left: -24, background: '#1A1C27', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 16, padding: '14px 20px', boxShadow: '0 16px 40px rgba(0,0,0,0.4)', display: 'none' }} className="md:block">
+            <div style={{ fontSize: 10, color: '#475569', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Active Carriers</div>
+            <div style={{ ...S, fontSize: 24, fontWeight: 700, color: '#34D399' }}>2.1M+</div>
           </div>
         </div>
       </section>
@@ -278,8 +303,193 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         </div>
       </section>
 
+      {/* ── TRUSTED BY ── */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', textAlign: 'center' }}>
+        <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#334155', marginBottom: 40 }}>Trusted by industry professionals</p>
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 32, maxWidth: 900, margin: '0 auto', opacity: 0.4 }}>
+          {['Progressive Insurance', 'GEICO Commercial', 'Northland Insurance', 'Canal Insurance', 'Old Republic', 'Travelers'].map(name => (
+            <div key={name} style={{ ...S, fontSize: 14, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em' }}>{name}</div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FEATURE 1: SEARCH ── */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 999, background: 'rgba(79, 70, 229, 0.1)', border: '1px solid rgba(79, 70, 229, 0.2)', color: '#818CF8', fontSize: 11, fontWeight: 700, marginBottom: 20, letterSpacing: '0.06em' }}>
+              🔍 POWERFUL SEARCH
+            </div>
+            <h2 style={{ ...S, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.15 }}>Find Any Carrier in Seconds</h2>
+            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.7, marginBottom: 32 }}>
+              Search by name, DOT number, MC number, state, or equipment type. Filter by authorization status, insurance company, years in business, and 30+ more criteria.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {['Instant search by name, DOT, or MC number', 'Advanced filters — state, cargo type, hazmat, fleet size', 'Filter by insurance company and renewal dates', 'Find carriers with email contacts only'].map(item => (
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(79, 70, 229, 0.15)', border: '1px solid rgba(79, 70, 229, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Check size={12} style={{ color: '#818CF8' }} />
+                  </div>
+                  <span style={{ fontSize: 14, color: '#94A3B8' }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ ...sectionCard, padding: 28, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
+            <div style={{ marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '10px 14px' }}>
+                <Search size={16} style={{ color: '#475569' }} />
+                <span style={{ fontSize: 14, color: '#475569' }}>Search by Business Name...</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {['State: TX', 'Entity: Carrier', 'Has Email: Yes', 'Active: Yes'].map(f => (
+                  <div key={f} style={{ padding: '8px 12px', background: 'rgba(79,70,229,0.08)', border: '1px solid rgba(79,70,229,0.2)', borderRadius: 10, fontSize: 12, color: '#818CF8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Filter size={11} /> {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ fontSize: 10, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontWeight: 700, textAlign: 'left' }}>Results — 2,847 carriers</div>
+            {['Lone Star Transport LLC', 'Texas Eagle Freight Co.', 'Gulf Coast Logistics Inc.', 'Panhandle Carriers LLC'].map((n, i) => (
+              <div key={n} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 13, color: '#CBD5E1', fontWeight: 500 }}>{n}</div>
+                  <div style={{ fontSize: 11, color: '#334155', marginTop: 2 }}>DOT #{3800000 + i * 12347}</div>
+                </div>
+                <div style={{ fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 6, background: 'rgba(16,185,129,0.1)', color: '#34D399', border: '1px solid rgba(16,185,129,0.2)' }}>ACTIVE</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURE 2: PROFILES ── */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', background: 'rgba(19,21,30,0.5)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
+          {/* Mock profile card */}
+          <div style={{ ...sectionCard, padding: 28, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.05)', textAlign: 'left' }}>
+              <div style={{ width: 52, height: 52, borderRadius: 16, background: '#4F46E5', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(79,70,229,0.35)' }}>
+                <Truck size={22} color="white" />
+              </div>
+              <div>
+                <div style={{ ...S, fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 4 }}>Summit Logistics LLC</div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <span style={{ fontSize: 10, padding: '2px 10px', borderRadius: 6, background: 'rgba(16,185,129,0.1)', color: '#34D399', border: '1px solid rgba(16,185,129,0.2)', fontWeight: 700 }}>ACTIVE</span>
+                  <span style={{ fontSize: 10, padding: '2px 10px', borderRadius: 6, background: 'rgba(79,70,229,0.1)', color: '#818CF8', border: '1px solid rgba(79,70,229,0.2)', fontWeight: 700 }}>CARRIER</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
+              {[{ l: 'DOT #', v: '3821944', c: '#818CF8' }, { l: 'MC #', v: '123456', c: '#818CF8' }, { l: 'Fleet Size', v: '47 units', c: 'white' }].map(s => (
+                <div key={s.l} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, border: '1px solid rgba(255,255,255,0.05)', textAlign: 'left' }}>
+                  <div style={{ fontSize: 10, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.l}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: s.c, fontFamily: 'monospace' }}>{s.v}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+              {[
+                { icon: Phone, v: '(512) 555-0192', label: 'Phone' },
+                { icon: Mail, v: 'dispatch@summitlogistics.com', label: 'Email' },
+                { icon: MapPin, v: 'Austin, TX 78701', label: 'Location' },
+              ].map(item => (
+                <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.04)' }}>
+                  <item.icon size={14} style={{ color: '#4F46E5', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: '#94A3B8' }}>{item.v}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 12, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 12, color: '#34D399', fontWeight: 600 }}>✓ Safety Rating: SATISFACTORY</span>
+              <span style={{ fontSize: 11, color: '#334155' }}>Since 2019</span>
+            </div>
+          </div>
+
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 999, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34D399', fontSize: 11, fontWeight: 700, marginBottom: 20, letterSpacing: '0.06em' }}>
+              📊 COMPLETE PROFILES
+            </div>
+            <h2 style={{ ...S, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.15 }}>Comprehensive Carrier Intelligence</h2>
+            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.7, marginBottom: 32 }}>
+              Every carrier profile includes contact details, authority status, insurance history, safety ratings, inspection records, crash data, and fleet information — all in one view.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              {[
+                { icon: ShieldCheck, label: 'Safety Scores', desc: 'BASIC percentiles & SMS', color: '#10B981' },
+                { icon: FileText, label: 'Inspection History', desc: 'Full violation records', color: '#6366F1' },
+                { icon: Shield, label: 'Insurance Data', desc: 'Coverage & renewal dates', color: '#F59E0B' },
+                { icon: Download, label: 'CSV Export', desc: 'Bulk export ready', color: '#EC4899' },
+              ].map(f => (
+                <div key={f.label} style={{ padding: 16, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1rem', textAlign: 'left' }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: `${f.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                    <f.icon size={16} style={{ color: f.color }} />
+                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: 'white', marginBottom: 4 }}>{f.label}</div>
+                  <div style={{ fontSize: 12, color: '#475569' }}>{f.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURE 3: EMAIL EXTRACTION ── */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 64, alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 999, background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#F59E0B', fontSize: 11, fontWeight: 700, marginBottom: 20, letterSpacing: '0.06em' }}>
+              ✉️ EMAIL EXTRACTION
+            </div>
+            <h2 style={{ ...S, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.15 }}>Direct Email Access at Scale</h2>
+            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.7, marginBottom: 32 }}>
+              Decode protected carrier email addresses from FMCSA records. Build targeted outreach lists and export thousands of verified contacts in minutes.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {['Decode protected FMCSA email addresses', 'Filter to only carriers with email contacts', 'Bulk export with full contact data to CSV', 'Insurance renewal date targeting'].map(item => (
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Check size={12} style={{ color: '#F59E0B' }} />
+                  </div>
+                  <span style={{ fontSize: 14, color: '#94A3B8' }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mock export UI */}
+          <div style={{ ...sectionCard, padding: 28, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ ...S, fontSize: 15, fontWeight: 700, color: 'white', marginBottom: 4 }}>Export Ready</div>
+                <div style={{ fontSize: 12, color: '#475569' }}>847 carriers with emails</div>
+              </div>
+              <div style={{ ...standardButton, padding: '8px 16px', borderRadius: 10, fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Download size={13} /> Export CSV
+              </div>
+            </div>
+            {[
+              { name: 'Lone Star Transport', email: 'ops@lonestar.com', state: 'TX', renewal: 'Mar 2025' },
+              { name: 'Blue Ridge Carriers', email: 'info@blueridge.net', state: 'NC', renewal: 'Apr 2025' },
+              { name: 'Gulf Coast Freight', email: 'dispatch@gcfreight.io', state: 'LA', renewal: 'May 2025' },
+              { name: 'Summit Express LLC', email: 'admin@summitexp.com', state: 'CO', renewal: 'Mar 2025' },
+            ].map((r, i) => (
+              <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'grid', gridTemplateColumns: '1fr 1fr 40px 80px', gap: 8, alignItems: 'center', textAlign: 'left' }}>
+                <div>
+                  <div style={{ fontSize: 12, color: '#CBD5E1', fontWeight: 500 }}>{r.name}</div>
+                  <div style={{ fontSize: 11, color: '#6366F1', marginTop: 2 }}>{r.email}</div>
+                </div>
+                <div style={{ fontSize: 11, color: '#475569' }}>{r.email}</div>
+                <div style={{ fontSize: 11, color: '#64748B', fontFamily: 'monospace' }}>{r.state}</div>
+                <div style={{ fontSize: 10, color: '#F59E0B', fontWeight: 600 }}>↻ {r.renewal}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TOOLS GRID ── */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '100px 24px' }}>
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px', background: 'rgba(19,21,30,0.5)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 60 }}>
             <h2 style={{ ...S, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>Powerful Research Tools</h2>
@@ -291,12 +501,15 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
               { icon: Mail, title: 'Email Extraction', desc: 'Decode protected carrier emails directly from FMCSA registration pages for targeted outreach.', color: '#10B981', tag: 'Popular' },
               { icon: Bell, title: 'Renewal Targeting', desc: 'Filter carriers by insurance renewal month and target expiring policies before competitors.', color: '#F59E0B', tag: 'Hot' },
               { icon: ShieldCheck, title: 'Safety Intelligence', desc: 'Instant access to BASIC scores, inspection history, crash records, and OOS violation rates.', color: '#EC4899', tag: 'Pro' },
+              { icon: Filter, title: 'Advanced Filtering', desc: '30+ filter criteria: state, cargo type, hazmat, fleet size, years in business, and more.', color: '#3B82F6', tag: 'Core' },
               { icon: Download, title: 'Bulk CSV Export', desc: 'Export thousands of filtered carrier records with full contact and compliance data instantly.', color: '#8B5CF6', tag: 'Core' },
               { icon: TrendingUp, title: 'New Ventures', desc: 'Target newly registered carriers — the highest-converting segment for commercial insurance.', color: '#F97316', tag: 'Unique' },
+              { icon: Globe, title: 'FMCSA Register', desc: 'Monitor new authority applications and be first to reach carriers before they are established.', color: '#06B6D4', tag: 'Pro' },
+              { icon: Users, title: 'Batch Enrichment', desc: 'Enrich thousands of carriers with safety ratings, insurance status, and contact data in bulk.', color: '#84CC16', tag: 'Pro' },
             ].map((f, i) => (
-              <div key={i} style={{ ...cardStyle, padding: 24, position: 'relative' }}>
-                <div style={{ position: 'absolute', top: 16, right: 16, padding: '2px 8px', borderRadius: 6, background: `${f.color}15`, border: `1px solid ${f.color}30`, fontSize: 10, fontWeight: 700, color: f.color }}>{f.tag}</div>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}15`, border: `1px solid ${f.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              <div key={i} style={{ ...sectionCard, padding: 24, position: 'relative', textAlign: 'left' }}>
+                <div style={{ position: 'absolute', top: 16, right: 16, padding: '2px 8px', borderRadius: 6, background: `${f.color}15`, border: `1px solid ${f.color}30`, fontSize: 10, fontWeight: 700, color: f.color, letterSpacing: '0.04em' }}>{f.tag}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 14, background: `${f.color}15`, border: `1px solid ${f.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                   <f.icon size={20} style={{ color: f.color }} />
                 </div>
                 <div style={{ ...S, fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 8 }}>{f.title}</div>
@@ -312,27 +525,44 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         <div style={{ maxWidth: 780, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 style={{ ...S, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>Frequently Asked Questions</h2>
+            <p style={{ fontSize: 16, color: '#64748B' }}>Everything you need to know about FreightIntel</p>
           </div>
           {[
-            { q: 'What is FreightIntel?', a: 'FreightIntel is a comprehensive carrier research platform built specifically for insurance professionals. We provide access to FMCSA data for over 4 million carriers.' },
-            { q: 'Can I export carrier data?', a: 'Yes — export thousands of filtered carriers to CSV with full contact details and authority status instantly.' },
-            { q: 'Is there a free trial?', a: 'Yes, FreightIntel offers a free trial with access to core features. No credit card required to get started.' },
+            { q: 'What is FreightIntel?', a: 'FreightIntel is a comprehensive carrier research platform built specifically for insurance professionals. We provide instant access to FMCSA data — safety ratings, compliance history, insurance coverage, and contact information — for over 4 million motor carriers across the United States.' },
+            { q: 'Who can I search for?', a: 'You can search for any entity with a DOT number — motor carriers, freight brokers, and shippers. Filter by state, entity type, authorization status, cargo type, fleet size, and dozens more criteria to build highly targeted lead lists.' },
+            { q: 'How does email extraction work?', a: 'FMCSA protects carrier email addresses with encoding. FreightIntel automatically decodes these protected emails from carrier profiles, giving you direct contact information for your outreach campaigns. You can filter specifically for carriers with email addresses on file.' },
+            { q: 'Can I export carrier data?', a: 'Yes — export thousands of filtered carriers to CSV with full contact details, safety ratings, authority status, and insurance information. Exports are instant and include all visible data fields.' },
+            { q: 'What is the New Ventures feature?', a: 'New Ventures shows you newly registered carriers — typically those in their first 1-2 years of operation. These are among the highest-converting segments for commercial auto and trucking insurance, as they are actively shopping for coverage.' },
+            { q: 'Is there a free trial?', a: 'Yes, FreightIntel offers a free trial with access to core features. No credit card required to get started. Upgrade anytime to unlock higher export limits, advanced filters, and batch enrichment tools.' },
           ].map((faq, i) => <FAQItem key={i} q={faq.q} a={faq.a} />)}
         </div>
       </section>
 
       {/* ── CTA ── */}
       <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px 120px' }}>
-        <div style={{ ...cardStyle, maxWidth: 780, margin: '0 auto', textAlign: 'center', padding: '72px 48px', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: -60, right: -60, width: 300, height: 300, background: 'rgba(79, 70, 229, 0.08)', borderRadius: '50%', filter: 'blur(60px)' }} />
-          <h2 style={{ ...S, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800, color: 'white', marginBottom: 20 }}>Ready to Close More Accounts?</h2>
+        <div style={{ ...sectionCard, maxWidth: 780, margin: '0 auto', textAlign: 'center', padding: '72px 48px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -60, right: -60, width: 300, height: 300, background: 'rgba(79, 70, 229, 0.12)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 999, background: 'rgba(79, 70, 229, 0.15)', border: '1px solid rgba(79, 70, 229, 0.3)', color: '#818CF8', fontSize: 12, fontWeight: 700, marginBottom: 24 }}>
+            🚀 START YOUR JOURNEY TODAY
+          </div>
+          <h2 style={{ ...S, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.1 }}>Ready to Close More Accounts?</h2>
+          <p style={{ fontSize: 17, color: '#64748B', maxWidth: 480, margin: '0 auto 40px', lineHeight: 1.7 }}>
+            Join hundreds of insurance professionals who use FreightIntel to find, research, and contact carriers every day.
+          </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
-            <button onClick={() => setAuthMode('register')} style={{ ...primaryButtonStyle, padding: '16px 40px', borderRadius: 14, fontSize: 16, fontWeight: 700, gap: 8 }}>
+            <button onClick={() => setAuthMode('register')} style={{ ...standardButton, padding: '16px 40px', borderRadius: 14, fontSize: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               Start Free Trial <ChevronRight size={18} />
             </button>
-            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButtonStyle, padding: '16px 40px', borderRadius: 14, fontSize: 16, fontWeight: 600 }}>
+            <button onClick={() => setAuthMode('login')} style={{ ...secondaryButton, padding: '16px 40px', borderRadius: 14, fontSize: 16, fontWeight: 600 }}>
               Sign In
             </button>
+          </div>
+          <div style={{ display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {['Free trial available', 'No credit card required', 'Cancel anytime'].map(t => (
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#475569' }}>
+                <Check size={13} style={{ color: '#6366F1' }} /> {t}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -346,44 +576,75 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
             </div>
             <span style={{ ...S, fontSize: 15, fontWeight: 700, color: 'white' }}>FreightIntel</span>
           </div>
-          <div style={{ fontSize: 13, color: '#475569' }}>© 2025 FreightIntel. All rights reserved.</div>
+          <div style={{ display: 'flex', gap: 24 }}>
+            {['Privacy Policy', 'Terms of Service', 'Support'].map(l => (
+              <span key={l} style={{ fontSize: 13, color: '#334155', cursor: 'pointer' }}>{l}</span>
+            ))}
+          </div>
+          <div style={{ fontSize: 13, color: '#1E293B' }}>© 2025 FreightIntel. All rights reserved.</div>
         </div>
       </footer>
 
       {/* ── AUTH MODAL ── */}
       {authMode && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'rgba(8, 10, 16, 0.9)', backdropFilter: 'blur(10px)' }}>
-          <div style={{ ...cardStyle, background: '#13151E', width: '100%', maxWidth: 440, padding: 36, position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'rgba(8,10,16,0.85)', backdropFilter: 'blur(10px)' }}>
+          <div style={{ ...sectionCard, background: '#13151E', width: '100%', maxWidth: 440, padding: 36, position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' }}>
             <button onClick={() => setAuthMode(null)} style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: '#64748B', cursor: 'pointer' }}>
               <X size={16} />
             </button>
-            <div style={{ marginBottom: 28 }}>
+            <div style={{ marginBottom: 28, textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 12, background: '#4F46E5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Truck size={16} color="white" />
+                </div>
+                <span style={{ ...S, fontSize: 15, fontWeight: 700, color: 'white' }}>FreightIntel</span>
+              </div>
               <h2 style={{ ...S, fontSize: 22, fontWeight: 800, color: 'white', marginBottom: 8 }}>
                 {authMode === 'login' ? 'Welcome back' : 'Create your account'}
               </h2>
+              <p style={{ fontSize: 14, color: '#475569' }}>
+                {authMode === 'login' ? 'Enter your credentials to access the dashboard.' : 'Start finding carrier leads in seconds.'}
+              </p>
             </div>
+            {error && (
+              <div style={{ marginBottom: 20, padding: '12px 16px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, color: '#F87171', fontSize: 14 }}>
+                {error}
+              </div>
+            )}
             <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {authMode === 'register' && (
-                <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase' }}>Full Name</label>
+                <div style={{ textAlign: 'left' }}>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Full Name</label>
                   <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="John Smith"
-                    style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
+                    style={{ width: '100%', padding: '12px 16px', fontSize: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
                 </div>
               )}
-              <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase' }}>Email</label>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Email Address</label>
                 <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="name@company.com"
-                  style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
+                  style={{ width: '100%', padding: '12px 16px', fontSize: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase' }}>Password</label>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Password</label>
                 <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••"
-                  style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
+                  style={{ width: '100%', padding: '12px 16px', fontSize: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'white' }} />
               </div>
-              <button type="submit" disabled={isLoading} style={{ ...primaryButtonStyle, width: '100%', padding: '14px', borderRadius: 12, fontSize: 15, fontWeight: 700, marginTop: 8 }}>
+              <button type="submit" disabled={isLoading}
+                style={{ ...standardButton, width: '100%', padding: '14px', borderRadius: 12, fontSize: 15, fontWeight: 700, marginTop: 4, opacity: isLoading ? 0.5 : 1 }}>
                 {isLoading ? 'Please wait...' : (authMode === 'login' ? 'Sign In' : 'Create Account')}
               </button>
             </form>
+            <div style={{ marginTop: 20, textAlign: 'center', fontSize: 13, color: '#334155' }}>
+              {authMode === 'login' ? (
+                <>Don't have an account?{' '}
+                  <button onClick={() => setAuthMode('register')} style={{ color: '#6366F1', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>Sign up free</button>
+                </>
+              ) : (
+                <>Already have an account?{' '}
+                  <button onClick={() => setAuthMode('login')} style={{ color: '#6366F1', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>Log in</button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
