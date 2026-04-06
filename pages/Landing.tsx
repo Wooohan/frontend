@@ -15,6 +15,7 @@ interface LandingProps {
   onLogin: (user: User) => void;
 }
 
+// Animated counter hook
 const useCounter = (target: number, duration = 1800, start = false) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -31,6 +32,7 @@ const useCounter = (target: number, duration = 1800, start = false) => {
   return count;
 };
 
+// FAQ Item
 const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -100,7 +102,7 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         const row = result.user;
         const loggedInUser: User = {
           id: row.user_id, name: row.name, email: row.email, role: row.role, plan: row.plan,
-          dailyLimit: row.daily_limit, records_extracted_today: row.records_extracted_today,
+          dailyLimit: row.daily_limit, recordsExtractedToday: row.records_extracted_today,
           lastActive: 'Now', ipAddress: row.ip_address || clientIp, isOnline: true, isBlocked: row.is_blocked || false,
         };
         if (loggedInUser.isBlocked) { setError("Your account has been blocked. Please contact support."); return; }
@@ -113,7 +115,7 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
         const createdUser: User = {
           id: row.user_id, name: row.name, email: row.email, role: row.role || 'user',
           plan: row.plan || 'Free', dailyLimit: row.daily_limit || 50,
-          records_extracted_today: row.records_extracted_today || 0,
+          recordsExtractedToday: row.records_extracted_today || 0,
           lastActive: 'Now', ipAddress: row.ip_address || clientIp, isOnline: true, isBlocked: false,
         };
         onLogin(createdUser);
@@ -343,7 +345,7 @@ export const Landing: React.FC<LandingProps> = ({ onLogin }) => {
       <footer className="py-12 border-t border-white/[0.05] relative z-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <Truck size={14} className="text-white" />
             </div>
             <span className="font-bold text-white">FreightIntel</span>
