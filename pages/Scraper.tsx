@@ -11,9 +11,14 @@ import {
   TaskStatus,
 } from '../services/backendService';
 const POLL_INTERVAL = 1500;
-const TASK_ID_KEY = 'hussfix_active_scraper_task_id';
-const RECONNECT_ATTEMPTS = 3;
-const RECONNECT_DELAY_MS = 1500;
+const TASK_ID_KEY_PREFIX = 'hussfix_active_scraper_task_id_';
+const RECONNECT_ATTEMPTS = 5;
+const RECONNECT_DELAY_MS = 2000;
+
+function getTaskIdKey(userId: string): string {
+  return `${TASK_ID_KEY_PREFIX}${userId}`;
+}
+
 interface ScraperProps {
   user: User;
   onUpdateUsage: (count: number) => void;
@@ -47,16 +52,21 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
   useEffect(() => {
     scrollToBottom();
   }, [logs]);
+  // User-specific task ID storage key
+  const taskIdKey = getTaskIdKey(user.id);
+
   useEffect(() => {
     const reconnect = async () => {
       for (let attempt = 1; attempt <= RECONNECT_ATTEMPTS; attempt++) {
         try {
+          // Backend now filters active tasks by the authenticated user's JWT,
+          // so this will only return tasks belonging to the current user.
           const active = await getActiveTask('scraper');
           if (active.task_id && active.task) {
             const status = active.task;
             if (status.status === 'running' || status.status === 'stopping') {
               taskIdRef.current = active.task_id;
-              localStorage.setItem(TASK_ID_KEY, active.task_id);
+              localStorage.setItem(taskIdKey, active.task_id);
               setIsRunning(true);
               setLogs(status.logs);
               setProgress(status.progress);
@@ -70,8 +80,8 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
               return;
             }
           }
-          // No active task from backend – try localStorage fallback
-          const savedTaskId = localStorage.getItem(TASK_ID_KEY);
+          // No active task from backend – try user-specific localStorage fallback
+          const savedTaskId = localStorage.getItem(taskIdKey);
           if (savedTaskId) {
             const status = await getScraperStatus(savedTaskId);
             if (status && (status.status === 'running' || status.status === 'stopping')) {
@@ -89,14 +99,14 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
               return;
             } else {
               // Task is no longer running, clean up
-              localStorage.removeItem(TASK_ID_KEY);
+              localStorage.removeItem(taskIdKey);
             }
           }
           return; // Backend responded fine, just no active task
         } catch {
-          // Network error – retry after delay
+          // Network error – retry after delay with exponential backoff
           if (attempt < RECONNECT_ATTEMPTS) {
-            await new Promise(r => setTimeout(r, RECONNECT_DELAY_MS));
+            await new Promise(r => setTimeout(r, RECONNECT_DELAY_MS * attempt));
           }
         }
       }
@@ -105,7 +115,7 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, []);
+  }, [user.id]);
   const startPolling = (taskId: string) => {
     if (pollRef.current) clearInterval(pollRef.current);
     pollRef.current = setInterval(async () => {
@@ -128,7 +138,7 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
         pollRef.current = null;
         setIsRunning(false);
         taskIdRef.current = null;
-        localStorage.removeItem(TASK_ID_KEY);
+        localStorage.removeItem(taskIdKey);
         const fullData = await getScraperData(taskId);
         if (fullData && fullData.length > 0) {
           setScrapedData(fullData);
@@ -168,7 +178,7 @@ export const Scraper: React.FC<ScraperProps> = ({ user, onUpdateUsage, onUpgrade
           onlyAuthorized: config.onlyAuthorized,
         });
         taskIdRef.current = result.task_id;
-        localStorage.setItem(TASK_ID_KEY, result.task_id);
+        localStorage.setItem(taskIdKey, result.task_id);
         setLogs(prev => [...prev, `Task ${result.task_id} started on server`]);
         startPolling(result.task_id);
       } catch (e: any) {
