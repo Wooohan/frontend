@@ -26,20 +26,20 @@ const CARRIER_OPERATIONS = [
 const FilterGroup: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; defaultOpen?: boolean }> = ({ title, icon, children, defaultOpen = true }) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="bg-[var(--bg-nav)]/80 border border-[var(--border)] rounded-2xl overflow-hidden">
+    <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl overflow-hidden">
       <button type="button" onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between px-4 py-3 text-left">
-        <span className="flex items-center gap-2 text-xs font-black text-[var(--accent-light)] uppercase tracking-widest">{icon} {title}</span>
-        {open ? <ChevronUp size={14} className="text-[var(--text-muted)]" /> : <ChevronDown size={14} className="text-[var(--text-muted)]" />}
+        <span className="flex items-center gap-2 text-xs font-black text-indigo-400 uppercase tracking-widest">{icon} {title}</span>
+        {open ? <ChevronUp size={14} className="text-slate-500" /> : <ChevronDown size={14} className="text-slate-500" />}
       </button>
       {open && <div className="px-4 pb-4 space-y-3">{children}</div>}
     </div>
   );
 };
 const FilterLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-1 ml-1">{children}</label>
+  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1 ml-1">{children}</label>
 );
 const FilterSelect: React.FC<{ name: string; value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; options: { value: string; label: string }[] }> = ({ name, value, onChange, options }) => (
-  <select name={name} value={value} onChange={onChange} className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]">
+  <select name={name} value={value} onChange={onChange} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500">
     {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
   </select>
 );
@@ -50,9 +50,9 @@ const MinMaxInputs: React.FC<{
 }> = ({ nameMin, nameMax, valueMin, valueMax, onChange }) => (
   <div className="grid grid-cols-2 gap-2">
     <input type="number" name={nameMin} value={valueMin} onChange={onChange} placeholder="Min" min={0}
-      className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]" />
+      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
     <input type="number" name={nameMax} value={valueMax} onChange={onChange} placeholder="Max" min={0}
-      className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]" />
+      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
   </div>
 );
 const MultiSelect: React.FC<{
@@ -68,17 +68,17 @@ const MultiSelect: React.FC<{
   return (
     <div className="relative">
       <button type="button" onClick={() => setOpen(o => !o)}
-        className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)] flex items-center justify-between">
-        <span className={selected.length === 0 ? 'text-[var(--text-muted)]' : 'text-white truncate'}>
+        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500 flex items-center justify-between">
+        <span className={selected.length === 0 ? 'text-slate-500' : 'text-white truncate'}>
           {selected.length === 0 ? placeholder : selected.join(', ')}
         </span>
         {open ? <ChevronUp size={14} className="shrink-0 ml-1" /> : <ChevronDown size={14} className="shrink-0 ml-1" />}
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl shadow-xl max-h-48 overflow-y-auto custom-scrollbar">
+        <div className="absolute z-50 mt-1 w-full bg-slate-800 border border-slate-700 rounded-xl shadow-xl max-h-48 overflow-y-auto custom-scrollbar">
           {options.map(opt => (
-            <label key={opt} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/[0.06] cursor-pointer text-sm text-[var(--text-primary)]">
-              <input type="checkbox" checked={selected.includes(opt)} onChange={() => toggle(opt)} className="accent-[var(--accent)]" />
+            <label key={opt} className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 cursor-pointer text-sm text-slate-300">
+              <input type="checkbox" checked={selected.includes(opt)} onChange={() => toggle(opt)} className="accent-indigo-500" />
               {opt}
             </label>
           ))}
@@ -281,14 +281,14 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
     const CopyBtn: React.FC<{ text: string; field: string }> = ({ text, field }) => {
       if (!text || text === '-') return null;
       return (
-        <button onClick={() => handleCopy(text, field)} className="ml-2 text-[var(--text-muted)] hover:text-[var(--accent-light)] transition-colors">
+        <button onClick={() => handleCopy(text, field)} className="ml-2 text-slate-500 hover:text-indigo-400 transition-colors">
           {copiedField === field ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
         </button>
       );
     };
     const InfoRow: React.FC<{ label: string; value: string; copyKey?: string }> = ({ label, value, copyKey }) => (
-      <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
-        <span className="text-[var(--text-secondary)] text-sm">{label}</span>
+      <div className="flex justify-between items-center py-2 border-b border-slate-800/50">
+        <span className="text-slate-400 text-sm">{label}</span>
         <span className="text-white text-sm font-medium flex items-center">
           {val(value)}
           {copyKey && <CopyBtn text={value} field={copyKey} />}
@@ -319,25 +319,25 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
       return '-';
     };
     return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0C0E14]/95 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose}>
-        <div className="bg-[#0F1118] border-2 border-[var(--border)] w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300" onClick={e => e.stopPropagation()}>
-          <div className="p-4 md:p-5 border-b border-[var(--border)] bg-[#13151E]/30 flex justify-between items-start">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose}>
+        <div className="bg-slate-900 border-2 border-slate-700/50 w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300" onClick={e => e.stopPropagation()}>
+          <div className="p-4 md:p-5 border-b border-slate-800 bg-slate-850/30 flex justify-between items-start">
             <div className="flex gap-4 md:gap-6 items-center">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-500/10">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-500/10">
                 <Truck size={20} className="md:w-8 md:h-8" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-3 mb-1">
-                  <h2 className="text-lg md:text-2xl heading-display text-white uppercase tracking-tighter truncate max-w-[300px] md:max-w-[700px] leading-tight">{val(v.name)}</h2>
+                  <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tighter truncate max-w-[300px] md:max-w-[700px] leading-tight">{val(v.name)}</h2>
                   <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${
                     v.operating_status?.toUpperCase().includes('AUTHORIZED') && !v.operating_status?.toUpperCase().includes('NOT')
                       ? 'bg-green-500/10 text-green-400 border-green-500/30'
-                      : 'bg-[var(--red-dim)] text-[var(--red-text)] border-red-500/30'
+                      : 'bg-red-500/10 text-red-400 border-red-500/30'
                   }`}>
                     {v.operating_status?.toUpperCase().includes('AUTHORIZED') && !v.operating_status?.toUpperCase().includes('NOT') ? 'Active Authority' : val(v.operating_status)}
                   </span>
                 </div>
-                {v.name_dba && <p className="text-[var(--text-secondary)] text-sm">DBA: {v.name_dba}</p>}
+                {v.name_dba && <p className="text-slate-400 text-sm">DBA: {v.name_dba}</p>}
                 <div className="flex items-center gap-2 mt-2">
                   <button onClick={() => handleCopy(v.dot_number || '', 'dot')} className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md">
                     <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">DOT {val(v.dot_number)}</span>
@@ -350,29 +350,29 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                 </div>
               </div>
             </div>
-            <button onClick={onClose} className="p-2 text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-card)] rounded-xl transition-all active:scale-75"><X size={24} /></button>
+            <button onClick={onClose} className="p-2 text-slate-500 hover:text-white hover:bg-slate-800 rounded-xl transition-all active:scale-75"><X size={24} /></button>
           </div>
-          <div className="flex border-b border-[var(--border-hover)] px-6">
+          <div className="flex border-b border-slate-700 px-6">
             {(['overview', 'cargo', 'fleet', 'safety', 'driver'] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setDetailTab(tab)}
                 className={`px-4 py-3 text-sm font-medium capitalize border-b-2 transition-colors ${
                   detailTab === tab
-                    ? 'border-violet-500 text-[var(--accent-light)]'
-                    : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                    ? 'border-indigo-500 text-indigo-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-300'
                 }`}
               >
                 {tab === 'driver' ? 'Driver' : tab}
               </button>
             ))}
           </div>
-          <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar bg-[#0F1118]/60 relative">
+          <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar bg-slate-900/40 relative">
             {detailTab === 'overview' && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-[#13151E]/60 p-6 rounded-3xl border border-[var(--border)] space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-[var(--accent-light)] transition-colors">
-                    <Hash size={14} className="text-[var(--accent-light)]" /> Company Info
+                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
+                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
+                    <Hash size={14} className="text-indigo-400" /> Company Info
                   </h3>
                   <div className="space-y-3">
                     <InfoRow label="Legal Name" value={v.name || ''} copyKey="name" />
@@ -386,9 +386,9 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                     <InfoRow label="Officer 2" value={v.company_officer_2 || ''} />
                   </div>
                 </div>
-                <div className="bg-[#13151E]/60 p-6 rounded-3xl border border-[var(--border)] space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-[var(--accent-light)] transition-colors">
-                    <Phone size={14} className="text-[var(--accent-light)]" /> Contact & Location
+                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
+                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
+                    <Phone size={14} className="text-indigo-400" /> Contact & Location
                   </h3>
                   <div className="space-y-3">
                     <InfoRow label="Phone" value={v.phy_phone || ''} copyKey="phone" />
@@ -400,9 +400,9 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                     <InfoRow label="Country" value={v.phy_country || ''} />
                   </div>
                 </div>
-                <div className="bg-[#13151E]/60 p-6 rounded-3xl border border-[var(--border)] space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-[var(--accent-light)] transition-colors">
-                    <Shield size={14} className="text-[var(--accent-light)]" /> Insurance
+                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
+                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
+                    <Shield size={14} className="text-indigo-400" /> Insurance
                   </h3>
                   <div className="space-y-3">
                     <InfoRow label="BIPD Required" value={v.bipd_req || ''} />
@@ -417,13 +417,13 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
             )}
             {detailTab === 'cargo' && (
               <div>
-                <h3 className="text-xs font-bold text-[var(--accent-light)] uppercase mb-3">Cargo Carried</h3>
+                <h3 className="text-xs font-bold text-indigo-400 uppercase mb-3">Cargo Carried</h3>
                 {activeCargo.length === 0 ? (
-                  <p className="text-[var(--text-muted)] text-sm">No cargo types marked.</p>
+                  <p className="text-slate-500 text-sm">No cargo types marked.</p>
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     {activeCargo.map(c => (
-                      <span key={c.key as string} className="bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs px-3 py-1.5 rounded-full">
+                      <span key={c.key as string} className="bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs px-3 py-1.5 rounded-full">
                         {c.label}
                       </span>
                     ))}
@@ -431,12 +431,12 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                 )}
                 {v.cargoothr_desc && (
                   <div className="mt-4">
-                    <span className="text-xs text-[var(--text-muted)] uppercase font-bold">Other Description:</span>
+                    <span className="text-xs text-slate-500 uppercase font-bold">Other Description:</span>
                     <p className="text-white text-sm mt-1">{v.cargoothr_desc}</p>
                   </div>
                 )}
-                <h3 className="text-xs font-bold text-[var(--accent-light)] uppercase mb-3 mt-6">HazMat</h3>
-                <span className={`text-sm px-3 py-1 rounded-full ${v.hm_ind === 'Y' ? 'bg-amber-500/20 text-amber-300' : 'bg-[var(--bg-card)] text-[var(--text-secondary)]'}`}>
+                <h3 className="text-xs font-bold text-indigo-400 uppercase mb-3 mt-6">HazMat</h3>
+                <span className={`text-sm px-3 py-1 rounded-full ${v.hm_ind === 'Y' ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-400'}`}>
                   {v.hm_ind === 'Y' ? 'HazMat Carrier' : 'No HazMat'}
                 </span>
               </div>
@@ -454,13 +454,13 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                     { label: 'Avg TLD', value: v.avg_tld },
                     { label: 'MCS150 Mileage', value: v.mcs150_mileage },
                   ].map(item => (
-                    <div key={item.label} className="bg-[#13151E]/80 border border-[var(--border)] rounded-xl p-3 text-center">
-                      <p className="text-[10px] text-[var(--text-muted)] uppercase font-bold">{item.label}</p>
+                    <div key={item.label} className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-center">
+                      <p className="text-[10px] text-slate-500 uppercase font-bold">{item.label}</p>
                       <p className="text-lg font-bold text-white mt-1">{val(item.value)}</p>
                     </div>
                   ))}
                 </div>
-                <h3 className="text-xs font-bold text-[var(--accent-light)] uppercase mt-4">Owned Equipment</h3>
+                <h3 className="text-xs font-bold text-indigo-400 uppercase mt-4">Owned Equipment</h3>
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <InfoRow label="Trucks" value={v.owntruck || ''} />
                   <InfoRow label="Tractors" value={v.owntract || ''} />
@@ -491,80 +491,80 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
               const grandTotal = interTotal + intraTotal;
               return (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-[#13151E]/40 p-8 rounded-[2rem] border border-[var(--border)] flex flex-col gap-6 shadow-2xl">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <Truck size={20} className="text-[var(--accent-light)]" />
-                    <h4 className="text-xl heading-display text-white uppercase tracking-tight">Interstate Drivers</h4>
+                    <Truck size={20} className="text-indigo-400" />
+                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Interstate Drivers</h4>
                   </div>
                   <div className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Within 100 mi</span>
-                        <span className="text-lg heading-display text-white">{interWithin}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Within 100 mi</span>
+                        <span className="text-lg font-black text-white">{interWithin}</span>
                       </div>
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Beyond 100 mi</span>
-                        <span className="text-lg heading-display text-white">{interBeyond}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Beyond 100 mi</span>
+                        <span className="text-lg font-black text-white">{interBeyond}</span>
                       </div>
-                      <div className="bg-violet-500/10 border border-violet-500/20 p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--accent-light)] font-black uppercase mb-1">Interstate Total</span>
-                        <span className="text-lg font-black text-violet-300">{interTotal}</span>
+                      <div className="bg-indigo-500/10 border border-indigo-500/20 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-indigo-400 font-black uppercase mb-1">Interstate Total</span>
+                        <span className="text-lg font-black text-indigo-300">{interTotal}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="h-px bg-[#13151E]/80" />
+                  <div className="h-px bg-slate-800/50" />
                   <div className="flex items-center gap-3">
-                    <Truck size={20} className="text-[var(--accent-light)]" />
-                    <h4 className="text-xl heading-display text-white uppercase tracking-tight">Intrastate Drivers</h4>
+                    <Truck size={20} className="text-indigo-400" />
+                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Intrastate Drivers</h4>
                   </div>
                   <div className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Within 100 mi</span>
-                        <span className="text-lg heading-display text-white">{intraWithin}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Within 100 mi</span>
+                        <span className="text-lg font-black text-white">{intraWithin}</span>
                       </div>
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Beyond 100 mi</span>
-                        <span className="text-lg heading-display text-white">{intraBeyond}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Beyond 100 mi</span>
+                        <span className="text-lg font-black text-white">{intraBeyond}</span>
                       </div>
-                      <div className="bg-violet-500/10 border border-violet-500/20 p-3 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--accent-light)] font-black uppercase mb-1">Intrastate Total</span>
-                        <span className="text-lg font-black text-violet-300">{intraTotal}</span>
+                      <div className="bg-indigo-500/10 border border-indigo-500/20 p-3 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-indigo-400 font-black uppercase mb-1">Intrastate Total</span>
+                        <span className="text-lg font-black text-indigo-300">{intraTotal}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-[#13151E]/40 p-8 rounded-[2rem] border border-[var(--border)] flex flex-col gap-6 shadow-2xl">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <Activity size={20} className="text-[var(--green-text)]" />
-                    <h4 className="text-xl heading-display text-white uppercase tracking-tight">Driver Summary</h4>
+                    <Activity size={20} className="text-emerald-400" />
+                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Driver Summary</h4>
                   </div>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-4 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Avg Leased Drivers/Month</span>
-                        <span className="text-2xl heading-display text-white">{rawVal('avg_leased_drivers_month', 'avg_tld', 'avg_numer_trip_leased_drivers_month', 'Avg numer trip leased drivers / month', 'avg_trip_leased_drivers_month')}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Avg Leased Drivers/Month</span>
+                        <span className="text-2xl font-black text-white">{rawVal('avg_leased_drivers_month', 'avg_tld', 'avg_numer_trip_leased_drivers_month', 'Avg numer trip leased drivers / month', 'avg_trip_leased_drivers_month')}</span>
                       </div>
-                      <div className="bg-[var(--green-dim)] border border-[var(--green-border)] p-4 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--green-text)] font-black uppercase mb-1">Grand Total</span>
+                      <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-emerald-400 font-black uppercase mb-1">Grand Total</span>
                         <span className="text-2xl font-black text-emerald-300">{grandTotal}</span>
                       </div>
                     </div>
-                    <div className="h-px bg-[#13151E]/80" />
+                    <div className="h-px bg-slate-800/50" />
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-4 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Total with CDL</span>
-                        <span className="text-2xl heading-display text-white">{rawVal('total_cdl_drivers', 'total_cdl', 'Total with CDL', 'total_with_cdl')}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Total with CDL</span>
+                        <span className="text-2xl font-black text-white">{rawVal('total_cdl_drivers', 'total_cdl', 'Total with CDL', 'total_with_cdl')}</span>
                       </div>
-                      <div className="bg-[#0F1118]/50 border border-[var(--border)] p-4 rounded-xl flex flex-col items-center">
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Total with Non-CDL</span>
-                        <span className="text-2xl heading-display text-white">{rawVal('total_non_cdl_drivers', 'Total with Non-CDL', 'total_with_non_cdl', 'total_noncdl')}</span>
+                      <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Total with Non-CDL</span>
+                        <span className="text-2xl font-black text-white">{rawVal('total_non_cdl_drivers', 'Total with Non-CDL', 'total_with_non_cdl', 'total_noncdl')}</span>
                       </div>
                     </div>
-                    <div className="h-px bg-[#13151E]/80" />
-                    <div className="bg-[#0F1118]/50 border border-[var(--border)] p-4 rounded-xl flex flex-col items-center">
-                      <span className="text-[9px] text-[var(--text-muted)] font-black uppercase mb-1">Total Drivers</span>
-                      <span className="text-2xl heading-display text-white">{rawVal('total_drivers', 'drivers', 'Drivers')}</span>
+                    <div className="h-px bg-slate-800/50" />
+                    <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col items-center">
+                      <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Total Drivers</span>
+                      <span className="text-2xl font-black text-white">{rawVal('total_drivers', 'drivers', 'Drivers')}</span>
                     </div>
                   </div>
                 </div>
@@ -577,12 +577,12 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
     );
   };
   return (
-    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-violet-500/30">
+    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-indigo-500/30">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-1 tracking-tight">New Ventures</h1>
           <p className="text-white text-sm font-bold">
-            Showing <span className="text-[var(--accent-light)] font-bold">{ventures.length}</span> records
+            Showing <span className="text-indigo-400 font-bold">{ventures.length}</span> records
             {hasActiveFilters && <span className="text-white"> out of {filteredCount.toLocaleString()}</span>}
             {!hasActiveFilters && totalCount > 0 && <span className="text-white"> of {totalCount.toLocaleString()} total</span>}
           </p>
@@ -594,57 +594,57 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
               className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all active:scale-95 ${
                 showScrapePanel
                   ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-lg shadow-amber-500/20'
-                  : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/20'
+                  : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-500/20'
               }`}
             >
               <Zap size={16} /> Scrape
             </button>
           )}
           <button onClick={() => loadVentures(buildFilters())}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-[var(--bg-card)] hover:bg-white/[0.06] text-white rounded-xl text-sm font-bold transition-all border border-[var(--border-hover)] active:scale-95">
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold transition-all border border-slate-700 active:scale-95">
             <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} /> Refresh
           </button>
           <button
             onClick={() => downloadNewVentureCSV(ventures)}
             disabled={ventures.length === 0}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-[var(--bg-card)] hover:bg-white/[0.06] disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-[var(--border-hover)] active:scale-95"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-slate-700 active:scale-95"
           >
             <Download size={16} /> Export CSV
           </button>
         </div>
       </div>
       {isAdmin && showScrapePanel && (
-        <div className="mb-4 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 border border-violet-500/30 rounded-2xl p-5">
+        <div className="mb-4 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 border border-indigo-500/30 rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-3">
-            <Database size={16} className="text-[var(--accent-light)]" />
-            <h3 className="text-sm font-bold text-violet-300 uppercase tracking-wider">Live Scrape from BrokerSnapshot</h3>
+            <Database size={16} className="text-indigo-400" />
+            <h3 className="text-sm font-bold text-indigo-300 uppercase tracking-wider">Live Scrape from BrokerSnapshot</h3>
           </div>
           <div className="flex flex-wrap items-end gap-4">
             <div>
-              <label className="block text-xs text-[var(--text-secondary)] mb-1">Added Date</label>
+              <label className="block text-xs text-slate-400 mb-1">Added Date</label>
               <input
                 type="date"
                 value={scrapeDate}
                 onChange={(e) => setScrapeDate(e.target.value)}
-                className="bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-4 py-2.5 text-white text-sm focus:border-[var(--accent)] outline-none"
+                className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-indigo-500 outline-none"
               />
             </div>
             <button
               onClick={handleScrape}
               disabled={isScraping || !scrapeDate}
-              className="flex items-center gap-2 px-6 py-2.5 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-violet-500/20 active:scale-95"
+              className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95"
             >
               {isScraping ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />}
               {isScraping ? 'Scraping...' : 'Live Scrape'}
             </button>
             {availDates.length > 0 && (
-              <div className="text-xs text-[var(--text-muted)]">
+              <div className="text-xs text-slate-500">
                 Scraped dates: {availDates.slice(0, 5).join(', ')}{availDates.length > 5 ? ` +${availDates.length - 5} more` : ''}
               </div>
             )}
           </div>
           {scrapeResult && (
-            <div className={`mt-3 px-4 py-2 rounded-xl text-sm ${scrapeResult.success ? 'bg-[var(--green-dim)] border border-emerald-500/30 text-emerald-300' : 'bg-[var(--red-dim)] border border-red-500/30 text-red-300'}`}>
+            <div className={`mt-3 px-4 py-2 rounded-xl text-sm ${scrapeResult.success ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300' : 'bg-red-500/10 border border-red-500/30 text-red-300'}`}>
               {scrapeResult.message}
             </div>
           )}
@@ -652,26 +652,26 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
       )}
       <div className="flex gap-3 mb-4">
         <div className="relative group w-52 shrink-0">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[var(--text-muted)] group-focus-within:text-[var(--accent-light)] transition-colors">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
             <Hash size={16} />
           </div>
           <input
             type="text"
             placeholder="Search MC/Docket#..."
-            className="w-full bg-[#13151E]/80 border border-[var(--border)] rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-[var(--accent)] focus:ring-4 focus:ring-violet-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
             value={docketSearch}
             onChange={(e) => setDocketSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
           />
         </div>
         <div className="flex-1 relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[var(--text-muted)] group-focus-within:text-[var(--accent-light)] transition-colors">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
             <Search size={18} />
           </div>
           <input
             type="text"
             placeholder="Search by Business Name..."
-            className="w-full bg-[#13151E]/80 border border-[var(--border)] rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-[var(--accent)] focus:ring-4 focus:ring-violet-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
             value={nameSearch}
             onChange={(e) => setNameSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -679,7 +679,7 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-violet-600 text-white border-violet-500' : 'bg-[var(--bg-card)] text-[var(--text-primary)] border-[var(--border-hover)] hover:bg-white/[0.06]'}`}
+          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}`}
         >
           <Zap size={16} className={showFilters ? 'fill-white' : ''} />
           {showFilters ? 'Hide Filters' : 'Advanced Filters'}
@@ -687,7 +687,7 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
         <button
           onClick={applyFilters}
           disabled={isLoading}
-          className="px-7 py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-violet-500/20 active:scale-95 flex items-center gap-2 text-sm"
+          className="px-7 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 flex items-center gap-2 text-sm"
         >
           {isLoading ? (
             <><Loader2 size={16} className="animate-spin" /> Searching...</>
@@ -697,7 +697,7 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
         </button>
       </div>
       {showFilters && (
-        <div className="mb-4 p-4 bg-[#0C0E14]/90 border border-[var(--border)] rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
+        <div className="mb-4 p-4 bg-slate-950/80 border border-slate-700/50 rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             <FilterGroup title="Motor Carrier" icon={<Truck size={12} />}>
               <div>
@@ -711,7 +711,7 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
               <div>
                 <FilterLabel>DOT Number</FilterLabel>
                 <input type="number" name="dotNumber" value={filters.dotNumber} onChange={handleFilterChange} placeholder="" min={0}
-                  className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]" />
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
               </div>
               <div>
                 <FilterLabel>Has Email</FilterLabel>
@@ -754,57 +754,57 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
               <div>
                 <FilterLabel>From Date</FilterLabel>
                 <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)}
-                  className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]" />
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
               </div>
               <div>
                 <FilterLabel>To Date</FilterLabel>
                 <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)}
-                  className="w-full bg-[var(--bg-card)] border border-[var(--border-hover)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--accent)]" />
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
               </div>
             </FilterGroup>
           </div>
-          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-[var(--border)]">
-            <button onClick={resetAll} className="px-6 py-2.5 bg-[var(--bg-card)] hover:bg-white/[0.06] text-[var(--text-primary)] rounded-xl text-sm font-bold transition-all border border-[var(--border-hover)]">
+          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-800">
+            <button onClick={resetAll} className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold transition-all border border-slate-700">
               Reset All
             </button>
             <button onClick={applyFilters} disabled={isLoading}
-              className="px-8 py-2.5 bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-violet-500/20 flex items-center gap-2">
+              className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
               {isLoading ? <><Loader2 size={14} className="animate-spin" /> Searching...</> : 'Apply Filters'}
             </button>
           </div>
         </div>
       )}
-      <div className="flex-1 overflow-hidden rounded-2xl border border-[var(--border)] bg-[#0F1118]/60 backdrop-blur-sm">
+      <div className="flex-1 overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-900/40 backdrop-blur-sm">
         <div className="overflow-auto h-full custom-scrollbar">
           <table className="w-full text-sm">
             <thead className="sticky top-0 z-10">
-              <tr className="bg-[#0F1118]/95 backdrop-blur-sm border-b border-[var(--border)]">
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Company</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">DOT#</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">MC#</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Status</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">State</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Phone</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Email</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Power</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Drivers</th>
-                <th className="text-left px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">Add Date</th>
-                <th className="text-center px-4 py-3 text-[10px] font-black text-[var(--accent-light)] uppercase tracking-widest">View</th>
+              <tr className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-700/50">
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Company</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">DOT#</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">MC#</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Status</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">State</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Phone</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Email</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Power</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Drivers</th>
+                <th className="text-left px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Add Date</th>
+                <th className="text-center px-4 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">View</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
                   <td colSpan={11} className="text-center py-20">
-                    <Loader2 className="w-8 h-8 text-[var(--accent-light)] animate-spin mx-auto mb-3" />
-                    <p className="text-[var(--text-secondary)] text-sm">Loading ventures...</p>
+                    <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mx-auto mb-3" />
+                    <p className="text-slate-400 text-sm">Loading ventures...</p>
                   </td>
                 </tr>
               ) : ventures.length === 0 ? (
                 <tr>
                   <td colSpan={11} className="text-center py-20">
                     <Database className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-                    <p className="text-[var(--text-muted)] text-sm">No records found. Try adjusting your filters or scrape new data.</p>
+                    <p className="text-slate-500 text-sm">No records found. Try adjusting your filters or scrape new data.</p>
                   </td>
                 </tr>
               ) : (
@@ -815,42 +815,42 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
                   const statusClass = isActive
                     ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40 font-bold'
                     : isPending
-                      ? 'bg-amber-500/10 text-[var(--amber-text)]'
-                      : 'bg-[var(--red-dim)] text-[var(--red-text)]';
+                      ? 'bg-amber-500/10 text-amber-400'
+                      : 'bg-red-500/10 text-red-400';
                   const statusLabel = isActive ? 'Active' : val(v.operating_status);
                   return (
                     <tr
                       key={v.id || i}
-                      className="border-b border-white/[0.04] hover:bg-violet-500/5 transition-colors cursor-pointer"
+                      className="border-b border-slate-800/50 hover:bg-indigo-500/5 transition-colors cursor-pointer"
                       onClick={() => handleRowClick(v)}
                     >
                       <td className="px-4 py-3">
                         <div className="font-medium text-white truncate max-w-[200px]">{val(v.name)}</div>
-                        {v.name_dba && <div className="text-xs text-[var(--text-muted)] truncate max-w-[200px]">{v.name_dba}</div>}
+                        {v.name_dba && <div className="text-xs text-slate-500 truncate max-w-[200px]">{v.name_dba}</div>}
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] font-mono text-xs">{val(v.dot_number)}</td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] font-mono text-xs">{val(v.docket_number)}</td>
+                      <td className="px-4 py-3 text-slate-300 font-mono text-xs">{val(v.dot_number)}</td>
+                      <td className="px-4 py-3 text-slate-300 font-mono text-xs">{val(v.docket_number)}</td>
                       <td className="px-4 py-3">
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusClass}`}>
                           {statusLabel}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] text-xs">{val(v.phy_st)}</td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] text-xs">{val(v.phy_phone)}</td>
+                      <td className="px-4 py-3 text-slate-300 text-xs">{val(v.phy_st)}</td>
+                      <td className="px-4 py-3 text-slate-300 text-xs">{val(v.phy_phone)}</td>
                       <td className="px-4 py-3">
                         {v.email_address ? (
-                          <span className="text-[var(--accent-light)] text-xs truncate max-w-[150px] block">{v.email_address}</span>
+                          <span className="text-indigo-400 text-xs truncate max-w-[150px] block">{v.email_address}</span>
                         ) : (
                           <span className="text-slate-600 text-xs">-</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] text-xs text-center">{val(v.total_pwr)}</td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] text-xs text-center">{val(v.total_drivers)}</td>
-                      <td className="px-4 py-3 text-[var(--text-primary)] text-xs">{val(v.add_date)}</td>
+                      <td className="px-4 py-3 text-slate-300 text-xs text-center">{val(v.total_pwr)}</td>
+                      <td className="px-4 py-3 text-slate-300 text-xs text-center">{val(v.total_drivers)}</td>
+                      <td className="px-4 py-3 text-slate-300 text-xs">{val(v.add_date)}</td>
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={(e) => { e.stopPropagation(); handleRowClick(v); }}
-                          className="p-1.5 rounded-lg hover:bg-violet-500/20 text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-all"
+                          className="p-1.5 rounded-lg hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-400 transition-all"
                         >
                           <Eye size={16} />
                         </button>
@@ -872,14 +872,14 @@ export const NewVenture: React.FC<NewVentureProps> = ({ user }) => {
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 0}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-[var(--bg-card)] text-white border border-[var(--border-hover)] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Prev
             </button>
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={ventures.length < PAGE_SIZE}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-[var(--bg-card)] text-white border border-[var(--border-hover)] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
             </button>
