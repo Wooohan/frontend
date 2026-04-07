@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Truck, CreditCard, Settings, Terminal, LogOut, ShieldAlert, Database, ShieldCheck, Rocket, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Truck, CreditCard, Settings, Terminal, LogOut, ShieldAlert, Database, Rocket, ChevronRight } from 'lucide-react';
 import { ViewState, User } from '../types';
 
 interface SidebarProps {
@@ -11,16 +11,16 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, user, onLogout }) => {
   const isAdmin = user.role === 'admin';
+
   const allNavItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, adminOnly: false, group: 'main' },
-    { id: 'scraper', label: 'Live Scraper', icon: Terminal, adminOnly: true, group: 'main' },
-    { id: 'carrier-search', label: 'Carrier Database', icon: Database, adminOnly: false, group: 'main' },
-    { id: 'new-venture', label: 'New Ventures', icon: Rocket, adminOnly: false, group: 'main' },
-    { id: 'fmcsa-register', label: 'FMCSA Register', icon: Database, adminOnly: false, group: 'main' },
-    { id: 'insurance-scraper', label: 'Insurance Scraper', icon: ShieldCheck, adminOnly: true, group: 'tools' },
-    { id: 'subscription', label: 'Subscription', icon: CreditCard, adminOnly: false, group: 'tools' },
-    { id: 'settings', label: 'Settings', icon: Settings, adminOnly: true, group: 'tools' },
-    { id: 'admin', label: 'Admin Panel', icon: ShieldAlert, adminOnly: true, group: 'tools' },
+    { id: 'dashboard',      label: 'Dashboard',        icon: LayoutDashboard, adminOnly: false, group: 'main' },
+    { id: 'scraper',        label: 'Live Scraper',      icon: Terminal,        adminOnly: true,  group: 'main', live: true },
+    { id: 'carrier-search', label: 'Carrier Database',  icon: Database,        adminOnly: false, group: 'main' },
+    { id: 'new-venture',    label: 'New Ventures',      icon: Rocket,          adminOnly: false, group: 'main' },
+    { id: 'fmcsa-register', label: 'FMCSA Register',    icon: Database,        adminOnly: false, group: 'main' },
+    { id: 'subscription',   label: 'Subscription',      icon: CreditCard,      adminOnly: false, group: 'tools' },
+    { id: 'settings',       label: 'Settings',          icon: Settings,        adminOnly: true,  group: 'tools' },
+    { id: 'admin',          label: 'Admin Panel',       icon: ShieldAlert,     adminOnly: true,  group: 'tools' },
   ];
 
   const navItems = allNavItems.filter(item => isAdmin || !item.adminOnly);
@@ -33,80 +33,102 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
     return (
       <button
         onClick={() => setCurrentView(item.id as ViewState)}
-        className={`w-full flex items-center gap-3 px-3 py-2.5 nav-item relative ${isActive ? 'nav-item-active' : 'nav-item-inactive'}`}
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          padding: '9px 12px',
+          borderRadius: 12,
+          border: isActive ? '1px solid rgba(124,92,252,0.25)' : '1px solid transparent',
+          background: isActive ? 'linear-gradient(135deg, rgba(124,92,252,0.18), rgba(124,92,252,0.07))' : 'transparent',
+          boxShadow: isActive ? '0 0 16px rgba(124,92,252,0.08)' : 'none',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          textAlign: 'left',
+        }}
+        onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'; }}
+        onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
       >
-        <div className={`flex items-center justify-center w-8 h-8 rounded-xl transition-all duration-200 ${
-          isActive
-            ? 'bg-violet-500/20 text-violet-400'
-            : 'text-slate-600 group-hover:text-slate-300'
-        }`}>
-          <Icon className="w-4 h-4" />
+        <div style={{
+          width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: isActive ? 'rgba(124,92,252,0.2)' : 'transparent',
+          transition: 'all 0.2s ease',
+        }}>
+          <Icon size={15} color={isActive ? '#A78BFA' : '#475569'} />
         </div>
-        <span className={`text-sm font-medium flex-1 text-left ${isActive ? 'text-slate-100' : 'text-slate-500'}`}>
+        <span style={{
+          flex: 1, fontSize: 13, fontWeight: 500,
+          color: isActive ? '#E2E8F0' : '#64748B',
+          fontFamily: 'DM Sans, sans-serif',
+          transition: 'color 0.2s',
+        }}>
           {item.label}
         </span>
-        {item.id === 'scraper' && isAdmin && (
-          <span className="dot-live"></span>
+        {item.live && isAdmin && (
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.7)', animation: 'pulseDot 2s ease-in-out infinite' }} />
         )}
         {item.id === 'admin' && (
-          <span className="bg-red-500/80 text-white text-[9px] px-1.5 py-0.5 rounded-md font-bold tracking-wide">ADM</span>
+          <span style={{ background: 'rgba(239,68,68,0.2)', color: '#f87171', fontSize: 9, padding: '2px 6px', borderRadius: 5, fontWeight: 700, letterSpacing: '0.05em' }}>ADM</span>
         )}
-        {isActive && (
-          <ChevronRight className="w-3.5 h-3.5 text-violet-400/60" />
-        )}
+        {isActive && <ChevronRight size={13} color="rgba(167,139,250,0.5)" />}
       </button>
     );
   };
 
   return (
-    <aside className="w-60 sidebar-bg flex flex-col h-screen fixed left-0 top-0 z-10">
-      {/* Top accent line */}
-      <div className="h-px accent-line w-full" />
+    <aside style={{
+      width: 240, display: 'flex', flexDirection: 'column', height: '100vh',
+      position: 'fixed', left: 0, top: 0, zIndex: 10,
+      background: 'linear-gradient(180deg, #0F1118 0%, #0C0E14 60%, #0F1118 100%)',
+      borderRight: '1px solid rgba(255,255,255,0.05)',
+    }}>
+      {/* Top accent */}
+      <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(124,92,252,0.7), rgba(167,139,250,0.4), transparent)' }} />
 
       {/* Logo */}
-      <div className="px-5 py-5 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg" style={{background: 'linear-gradient(135deg, #7C5CFC, #A78BFA)', boxShadow: '0 4px 16px rgba(124,92,252,0.35)'}}>
-          <Truck className="w-4 h-4 text-white" />
+      <div style={{ padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 12, background: 'linear-gradient(135deg, #7C5CFC, #A78BFA)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(124,92,252,0.35)', flexShrink: 0 }}>
+          <Truck size={16} color="white" />
         </div>
         <div>
-          <span className="heading-display text-[15px] text-white tracking-tight">FreightIntel</span>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="dot-live" style={{width:6,height:6}}></span>
-            <span className="text-[10px] text-emerald-400/80 font-medium">Live</span>
+          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15, color: 'white', lineHeight: 1 }}>FreightIntel</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 3 }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)', display: 'inline-block' }} />
+            <span style={{ fontSize: 10, color: 'rgba(52,211,153,0.8)', fontWeight: 500 }}>Live</span>
           </div>
         </div>
       </div>
 
-      <div className="mx-4 h-px bg-white/[0.04] mb-3" />
+      <div style={{ margin: '0 16px', height: 1, background: 'rgba(255,255,255,0.04)', marginBottom: 12 }} />
 
       {/* Nav */}
-      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
-        <p className="section-label px-3 mb-2">Navigation</p>
+      <nav style={{ flex: 1, padding: '0 12px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }} className="scrollbar-hide">
+        <div style={{ fontSize: 10, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', padding: '0 12px', marginBottom: 6 }}>Navigation</div>
         {mainItems.map(item => <NavItem key={item.id} item={item} />)}
 
         {toolItems.length > 0 && (
           <>
-            <div className="pt-4 pb-1">
-              <p className="section-label px-3">Tools</p>
-            </div>
+            <div style={{ height: 1, background: 'rgba(255,255,255,0.04)', margin: '12px 4px' }} />
+            <div style={{ fontSize: 10, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', padding: '0 12px', marginBottom: 6 }}>Tools</div>
             {toolItems.map(item => <NavItem key={item.id} item={item} />)}
           </>
         )}
       </nav>
 
-      {/* User section */}
-      <div className="p-3 border-t border-white/[0.04]">
-        <div className="rounded-2xl p-3 mb-2" style={{background: 'rgba(124,92,252,0.08)', border: '1px solid rgba(124,92,252,0.15)'}}>
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm" style={{background: 'linear-gradient(135deg, rgba(124,92,252,0.4), rgba(167,139,250,0.2))'}}>
+      {/* User */}
+      <div style={{ padding: 12, borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ background: 'rgba(124,92,252,0.07)', border: '1px solid rgba(124,92,252,0.15)', borderRadius: 14, padding: '12px 14px', marginBottom: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 10, background: 'linear-gradient(135deg, rgba(124,92,252,0.5), rgba(167,139,250,0.3))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 14, color: 'white', flexShrink: 0 }}>
               {user.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white truncate heading-display">{user.name}</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[10px] text-violet-400 font-medium capitalize">{user.plan}</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 600, fontSize: 13, color: 'white', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                <span style={{ fontSize: 10, color: '#9B7EFD', fontWeight: 500, textTransform: 'capitalize' }}>{user.plan}</span>
                 {user.role === 'admin' && (
-                  <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/20 px-1.5 py-0.5 rounded-md font-bold">Admin</span>
+                  <span style={{ fontSize: 9, background: 'rgba(239,68,68,0.15)', color: '#f87171', border: '1px solid rgba(239,68,68,0.2)', padding: '1px 6px', borderRadius: 4, fontWeight: 700 }}>Admin</span>
                 )}
               </div>
             </div>
@@ -114,10 +136,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, u
         </div>
         <button
           onClick={onLogout}
-          className="flex items-center gap-2.5 px-3 py-2 text-slate-600 hover:text-slate-300 hover:bg-white/[0.04] w-full transition-all rounded-xl group"
+          style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderRadius: 10, border: 'none', background: 'transparent', color: '#475569', cursor: 'pointer', fontSize: 13, fontFamily: 'DM Sans, sans-serif', fontWeight: 500, transition: 'all 0.2s' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLButtonElement).style.color = '#94A3B8'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = '#475569'; }}
         >
-          <LogOut className="w-3.5 h-3.5 group-hover:text-red-400 transition-colors" />
-          <span className="text-xs font-medium">Sign Out</span>
+          <LogOut size={14} />
+          Sign Out
         </button>
       </div>
     </aside>
