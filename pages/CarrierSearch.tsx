@@ -319,26 +319,26 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
     { value: '0', label: 'No' },
   ];
   return (
-    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-purple-500/30">
+    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-indigo-500/30">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Carrier Database</h1>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-1 tracking-tight">Carrier Database</h1>
           <p className="text-slate-400 text-sm">
-            Showing <span className="text-purple-400 font-bold">{carriers.length}</span> records
+            Showing <span className="text-indigo-400 font-bold">{carriers.length}</span> records
             {filteredCount > 0 && <span className="text-white font-bold"> of {filteredCount.toLocaleString()} total</span>}
           </p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <button
             onClick={onNavigateToInsurance}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 active:scale-95"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95"
           >
             <ShieldAlert size={16} /> Batch Enrichment Pipeline
           </button>
           <button
             onClick={() => downloadCSV(carriers)}
             disabled={carriers.length === 0}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white/[0.05] hover:bg-white/[0.08] disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-white/[0.08] hover:border-purple-500/20 active:scale-95"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-slate-700 active:scale-95"
           >
             <Download size={16} /> Export CSV
           </button>
@@ -352,7 +352,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
           <input
             type="text"
             placeholder="Search MC#..."
-            className="w-full bg-slate-900/60 border border-purple-500/20 rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
             value={mcSearchTerm}
             onChange={(e) => setMcSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -365,7 +365,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
           <input
             type="text"
             placeholder="Search by Business Name..."
-            className="w-full bg-slate-900/60 border border-purple-500/20 rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
             value={nameSearchTerm}
             onChange={(e) => setNameSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -373,7 +373,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-purple-600 text-white border-purple-500' : 'bg-white/[0.05] text-slate-300 border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20'}`}
+          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}`}
         >
           <Zap size={16} className={showFilters ? 'fill-white' : ''} />
           {showFilters ? 'Hide Filters' : 'Advanced Filters'}
@@ -381,7 +381,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         <button
           onClick={applyFilters}
           disabled={isLoading}
-          className="px-7 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-purple-500/30 active:scale-95 flex items-center gap-2 text-sm"
+          className="px-7 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 flex items-center gap-2 text-sm"
         >
           {isLoading ? (
             <><Loader2 size={16} className="animate-spin" /> Searching...</>
@@ -391,7 +391,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </button>
       </div>
       {showFilters && (
-        <div className="mb-4 p-6 premium-card rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
+        <div className="mb-4 p-4 bg-slate-950/80 border border-slate-700/50 rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             <FilterGroup title="Motor Carrier" icon={<Truck size={12} />}>
               <div>
@@ -551,24 +551,20 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             </FilterGroup>
           </div>
           <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-800">
-            <button
-              onClick={resetAll}
-              className="px-6 py-2.5 bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 rounded-xl text-sm font-bold transition-all border border-white/[0.08] hover:border-purple-500/20"
-            >
+            <button onClick={resetAll} className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold transition-all border border-slate-700">
               Reset All
             </button>
             <button onClick={applyFilters} disabled={isLoading}
-              className="px-8 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 flex items-center gap-2"
-            >
+              className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
               {isLoading ? <><Loader2 size={14} className="animate-spin" /> Searching...</> : 'Apply Filters'}
             </button>
           </div>
         </div>
       )}
-      <div className="flex-1 premium-card rounded-3xl overflow-hidden flex flex-col shadow-inner min-h-0">
+      <div className="flex-1 bg-slate-900/40 border border-slate-700/50 rounded-3xl overflow-hidden flex flex-col shadow-inner min-h-0">
         <div className="overflow-auto custom-scrollbar flex-1">
           <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/80 backdrop-blur sticky top-0 z-10 border-b border-purple-500/10">
+            <thead className="bg-slate-900/90 backdrop-blur sticky top-0 z-10 border-b border-slate-800">
               <tr>
                 <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">MC Number</th>
                 <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">Legal Name</th>
@@ -582,7 +578,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="text-center py-20">
-                    <Loader2 className="w-8 h-8 text-purple-400 animate-spin mx-auto mb-3" />
+                    <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mx-auto mb-3" />
                     <p className="text-slate-400 text-sm">Loading carriers...</p>
                   </td>
                 </tr>
@@ -595,8 +591,8 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 </tr>
               ) : (
                 carriers.map((carrier, idx) => (
-                  <tr key={idx} className="hover:bg-purple-500/5 transition-colors group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
-                    <td className="p-4 font-mono text-purple-400 font-bold">{carrier.mcNumber}</td>
+                  <tr key={idx} className="hover:bg-indigo-500/5 transition-colors group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
+                    <td className="p-4 font-mono text-indigo-400 font-bold">{carrier.mcNumber}</td>
                     <td className="p-4">
                       <div className="font-bold text-white group-hover:text-indigo-200 transition-colors truncate max-w-[250px]">{carrier.legalName}</div>
                     </td>
@@ -614,7 +610,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     <td className="p-4 text-right">
                       <button
                         onClick={(e) => { e.stopPropagation(); setSelectedDot(carrier.dotNumber); }}
-                        className="p-2 bg-white/[0.05] hover:bg-purple-600 text-slate-300 hover:text-white rounded-xl transition-all shadow-lg active:scale-95 border border-white/[0.08] hover:border-purple-500/20"
+                        className="p-2 bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl transition-all shadow-lg active:scale-95"
                       >
                         <Eye size={18} />
                       </button>
@@ -636,14 +632,14 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 0}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white/[0.05] text-white border border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Prev
             </button>
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={carriers.length < PAGE_SIZE}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white/[0.05] text-white border border-white/[0.08] hover:bg-white/[0.08] hover:border-purple-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
             </button>
@@ -652,16 +648,16 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
       )}
       {selectedCarrier && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="premium-card w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300">
-            <div className="p-4 md:p-5 border-b border-purple-500/10 bg-slate-900/30 flex justify-between items-start">
+          <div className="bg-slate-900 border-2 border-slate-700/50 w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300">
+            <div className="p-4 md:p-5 border-b border-slate-800 bg-slate-850/30 flex justify-between items-start">
               <div className="flex gap-4 md:gap-6 items-center">
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-purple-500/20">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-500/10">
                   <Truck size={20} className="md:w-8 md:h-8" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-3 mb-1">
                     <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tighter truncate max-w-[300px] md:max-w-[700px] leading-tight">{selectedCarrier.legalName}</h2>
-                    <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-500/15 text-red-300 border-red-500/40' : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-500/10 text-red-400 border-red-500/30' : 'bg-green-500/10 text-green-400 border-green-500/30'}`}>
                       {selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'Unauthorized' : 'Active Authority'}
                     </span>
                   </div>
@@ -669,7 +665,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                   <div className="flex items-center gap-2 mt-2">
                     <button 
                       onClick={() => handleCopy(selectedCarrier.dotNumber, 'dot')}
-                      className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
                     >
                       <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
                         DOT {selectedCarrier.dotNumber}
@@ -678,7 +674,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     </button>
                     <button 
                       onClick={() => handleCopy(selectedCarrier.mcNumber || '', 'mc')}
-                      className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
                     >
                       <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
                         MC {selectedCarrier.mcNumber}
@@ -805,7 +801,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                     </div>
                   </div>
                 </div>
-                <div className="premium-card p-8 rounded-[2rem] flex flex-col shadow-2xl">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col shadow-2xl">
                   <div className="flex items-center gap-3 mb-8">
                     <ShieldCheck size={20} className="text-emerald-400" />
                     <h4 className="text-xl font-black text-white uppercase tracking-tight">Insurance History</h4>
@@ -869,7 +865,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 </div>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="premium-card p-8 rounded-[2rem] flex flex-col gap-6 shadow-2xl relative">
+                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl relative">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <ShieldCheck size={20} className="text-indigo-400" />
