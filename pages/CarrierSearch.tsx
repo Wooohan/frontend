@@ -84,22 +84,22 @@ const MultiSelect: React.FC<{
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
-        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500 flex items-center justify-between"
+        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500 flex items-center justify-between"
       >
-        <span className={selected.length === 0 ? 'text-slate-500' : 'text-white truncate'}>
+        <span className={selected.length === 0 ? 'text-slate-400' : 'text-slate-900 truncate'}>
           {selected.length === 0 ? placeholder : selected.join(', ')}
         </span>
-        {open ? <ChevronUp size={14} className="shrink-0 ml-1" /> : <ChevronDown size={14} className="shrink-0 ml-1" />}
+        {open ? <ChevronUp size={14} className="shrink-0 ml-1 text-slate-400" /> : <ChevronDown size={14} className="shrink-0 ml-1 text-slate-400" />}
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-slate-800 border border-slate-700 rounded-xl shadow-xl max-h-48 overflow-y-auto custom-scrollbar">
+        <div className="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg max-h-48 overflow-y-auto custom-scrollbar">
           {options.map(opt => (
-            <label key={opt} className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 cursor-pointer text-sm text-slate-300">
+            <label key={opt} className="flex items-center gap-2 px-3 py-1.5 hover:bg-blue-50 cursor-pointer text-sm text-slate-600">
               <input
                 type="checkbox"
                 checked={selected.includes(opt)}
                 onChange={() => toggle(opt)}
-                className="accent-indigo-500"
+                className="accent-blue-500"
               />
               {opt}
             </label>
@@ -112,16 +112,16 @@ const MultiSelect: React.FC<{
 const FilterGroup: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => {
   const [open, setOpen] = useState(true);
   return (
-    <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl overflow-hidden">
+    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
-        <span className="flex items-center gap-2 text-xs font-black text-indigo-400 uppercase tracking-widest">
+        <span className="flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest">
           {icon} {title}
         </span>
-        {open ? <ChevronUp size={14} className="text-slate-500" /> : <ChevronDown size={14} className="text-slate-500" />}
+        {open ? <ChevronUp size={14} className="text-slate-400" /> : <ChevronDown size={14} className="text-slate-400" />}
       </button>
       {open && <div className="px-4 pb-4 space-y-3">{children}</div>}
     </div>
@@ -131,7 +131,7 @@ const FilterLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1 ml-1">{children}</label>
 );
 const FilterSelect: React.FC<{ name: string; value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; options: { value: string; label: string }[] }> = ({ name, value, onChange, options }) => (
-  <select name={name} value={value} onChange={onChange} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500">
+  <select name={name} value={value} onChange={onChange} className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500">
     {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
   </select>
 );
@@ -142,9 +142,9 @@ const MinMaxInputs: React.FC<{
 }> = ({ nameMin, nameMax, valueMin, valueMax, onChange }) => (
   <div className="grid grid-cols-2 gap-2">
     <input type="number" name={nameMin} value={valueMin} onChange={onChange} placeholder="Min" min={0}
-      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
     <input type="number" name={nameMax} value={valueMax} onChange={onChange} placeholder="Max" min={0}
-      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
   </div>
 );
 export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsurance }) => {
@@ -319,53 +319,56 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
     { value: '0', label: 'No' },
   ];
   return (
-    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-indigo-500/30">
+    <div className="p-4 md:p-8 h-screen flex flex-col overflow-hidden relative selection:bg-blue-500/30">
+      {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-1 tracking-tight">Carrier Database</h1>
-          <p className="text-slate-400 text-sm">
-            Showing <span className="text-indigo-400 font-bold">{carriers.length}</span> records
-            {filteredCount > 0 && <span className="text-white font-bold"> of {filteredCount.toLocaleString()} total</span>}
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1 tracking-tight">Carrier Database</h1>
+          <p className="text-slate-500 text-sm">
+            Showing <span className="text-blue-600 font-bold">{carriers.length}</span> records
+            {filteredCount > 0 && <span className="text-slate-900 font-bold"> of {filteredCount.toLocaleString()} total</span>}
           </p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <button
             onClick={onNavigateToInsurance}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
           >
             <ShieldAlert size={16} /> Batch Enrichment Pipeline
           </button>
           <button
             onClick={() => downloadCSV(carriers)}
             disabled={carriers.length === 0}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all border border-slate-700 active:scale-95"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 disabled:opacity-50 text-slate-700 rounded-xl text-sm font-bold transition-all border border-slate-200 active:scale-95"
           >
             <Download size={16} /> Export CSV
           </button>
         </div>
       </div>
+
+      {/* Search Bar Row */}
       <div className="flex gap-3 mb-4">
         <div className="relative group w-52 shrink-0">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
             <Hash size={16} />
           </div>
           <input
             type="text"
             placeholder="Search MC#..."
-            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-9 pr-3 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-white border border-slate-200 rounded-2xl pl-9 pr-3 py-3 text-slate-900 text-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
             value={mcSearchTerm}
             onChange={(e) => setMcSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
           />
         </div>
         <div className="flex-1 relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
             <Search size={18} />
           </div>
           <input
             type="text"
             placeholder="Search by Business Name..."
-            className="w-full bg-slate-850/80 border border-slate-700/50 rounded-2xl pl-11 pr-4 py-3 text-white text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-xl"
+            className="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-slate-900 text-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
             value={nameSearchTerm}
             onChange={(e) => setNameSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
@@ -373,7 +376,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}`}
+          className={`px-5 py-3 rounded-2xl font-bold transition-all flex items-center gap-2 border text-sm ${showFilters ? 'bg-blue-600 text-white border-blue-500' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
         >
           <Zap size={16} className={showFilters ? 'fill-white' : ''} />
           {showFilters ? 'Hide Filters' : 'Advanced Filters'}
@@ -381,7 +384,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         <button
           onClick={applyFilters}
           disabled={isLoading}
-          className="px-7 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 flex items-center gap-2 text-sm"
+          className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center gap-2 text-sm"
         >
           {isLoading ? (
             <><Loader2 size={16} className="animate-spin" /> Searching...</>
@@ -390,8 +393,10 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
           )}
         </button>
       </div>
+
+      {/* Filter Panel */}
       {showFilters && (
-        <div className="mb-4 p-4 bg-slate-950/80 border border-slate-700/50 rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar">
+        <div className="mb-4 p-4 bg-white border border-slate-200 rounded-3xl overflow-y-auto max-h-[55vh] custom-scrollbar shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             <FilterGroup title="Motor Carrier" icon={<Truck size={12} />}>
               <div>
@@ -413,7 +418,7 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
               <div>
                 <FilterLabel>DOT Number</FilterLabel>
                 <input type="number" name="dot" value={filters.dot} onChange={handleFilterChange} placeholder="" min={0}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
               </div>
               <div>
                 <FilterLabel>Years in Business</FilterLabel>
@@ -478,27 +483,27 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 <FilterLabel>Renewal Policy Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="renewalDateFrom" value={filters.renewalDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                   <input type="date" name="renewalDateTo" value={filters.renewalDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                 </div>
               </div>
               <div>
                 <FilterLabel>Insurance Effective Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="insEffectiveDateFrom" value={filters.insEffectiveDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                   <input type="date" name="insEffectiveDateTo" value={filters.insEffectiveDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                 </div>
               </div>
               <div>
                 <FilterLabel>Insurance Cancellation Date</FilterLabel>
                 <div className="grid grid-cols-2 gap-2">
                   <input type="date" name="insCancellationDateFrom" value={filters.insCancellationDateFrom} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                   <input type="date" name="insCancellationDateTo" value={filters.insCancellationDateTo} onChange={handleFilterChange}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-indigo-500" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-500" />
                 </div>
               </div>
               <div>
@@ -550,21 +555,23 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
               </div>
             </FilterGroup>
           </div>
-          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-800">
-            <button onClick={resetAll} className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold transition-all border border-slate-700">
+          <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-200">
+            <button onClick={resetAll} className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-600 rounded-xl text-sm font-bold transition-all border border-slate-200">
               Reset All
             </button>
             <button onClick={applyFilters} disabled={isLoading}
-              className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+              className="px-8 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2">
               {isLoading ? <><Loader2 size={14} className="animate-spin" /> Searching...</> : 'Apply Filters'}
             </button>
           </div>
         </div>
       )}
-      <div className="flex-1 bg-slate-900/40 border border-slate-700/50 rounded-3xl overflow-hidden flex flex-col shadow-inner min-h-0">
+
+      {/* Table */}
+      <div className="flex-1 bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm min-h-0">
         <div className="overflow-auto custom-scrollbar flex-1">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/90 backdrop-blur sticky top-0 z-10 border-b border-slate-800">
+          <table className="w-full text-left text-sm text-slate-600">
+            <thead className="bg-slate-50 sticky top-0 z-10 border-b border-slate-200">
               <tr>
                 <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">MC Number</th>
                 <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500">Legal Name</th>
@@ -574,43 +581,43 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                 <th className="p-4 font-bold text-[10px] uppercase tracking-widest text-slate-500 text-right">View</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/50">
+            <tbody className="divide-y divide-slate-100">
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="text-center py-20">
-                    <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mx-auto mb-3" />
+                    <Loader2 className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-3" />
                     <p className="text-slate-400 text-sm">Loading carriers...</p>
                   </td>
                 </tr>
               ) : carriers.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center py-20">
-                    <Database className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-                    <p className="text-slate-500 text-sm">No results found. Try adjusting your filters.</p>
+                    <Database className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                    <p className="text-slate-400 text-sm">No results found. Try adjusting your filters.</p>
                   </td>
                 </tr>
               ) : (
                 carriers.map((carrier, idx) => (
-                  <tr key={idx} className="hover:bg-indigo-500/5 transition-colors group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
-                    <td className="p-4 font-mono text-indigo-400 font-bold">{carrier.mcNumber}</td>
+                  <tr key={idx} className="hover:bg-blue-50/50 transition-colors group cursor-pointer" onClick={() => setSelectedDot(carrier.dotNumber)}>
+                    <td className="p-4 font-mono text-blue-600 font-bold">{carrier.mcNumber}</td>
                     <td className="p-4">
-                      <div className="font-bold text-white group-hover:text-indigo-200 transition-colors truncate max-w-[250px]">{carrier.legalName}</div>
+                      <div className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors truncate max-w-[250px]">{carrier.legalName}</div>
                     </td>
-                    <td className="p-4 font-mono text-slate-400">{carrier.dotNumber}</td>
+                    <td className="p-4 font-mono text-slate-500">{carrier.dotNumber}</td>
                     <td className="p-4">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-black tracking-tight border ${carrier.status?.includes('AUTHORIZED') && !carrier.status?.includes('NOT') ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-black tracking-tight border ${carrier.status?.includes('AUTHORIZED') && !carrier.status?.includes('NOT') ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
                         {carrier.status?.includes('AUTHORIZED') && !carrier.status?.includes('NOT') ? 'ACTIVE' : 'INACTIVE'}
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-black tracking-tight border ${carrier.entityType?.toUpperCase().includes('BROKER') ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'}`}>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-black tracking-tight border ${carrier.entityType?.toUpperCase().includes('BROKER') ? 'bg-orange-50 text-orange-600 border-orange-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
                         {carrier.entityType?.toUpperCase().includes('BROKER') ? 'BROKER' : 'CARRIER'}
                       </span>
                     </td>
                     <td className="p-4 text-right">
                       <button
                         onClick={(e) => { e.stopPropagation(); setSelectedDot(carrier.dotNumber); }}
-                        className="p-2 bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl transition-all shadow-lg active:scale-95"
+                        className="p-2 bg-slate-50 hover:bg-blue-600 text-slate-400 hover:text-white rounded-xl transition-all shadow-sm active:scale-95 border border-slate-200 hover:border-blue-600"
                       >
                         <Eye size={18} />
                       </button>
@@ -623,318 +630,377 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
         </div>
       </div>
       
+      {/* Pagination */}
       {!isLoading && carriers.length > 0 && (
         <div className="flex items-center justify-between mt-3 px-2">
-          <p className="text-xs text-white font-bold">
+          <p className="text-xs text-slate-700 font-bold">
             Page {currentPage + 1} · Showing {currentPage * PAGE_SIZE + 1}–{currentPage * PAGE_SIZE + carriers.length}{filteredCount > 0 ? ` of ${filteredCount.toLocaleString()}` : (totalCount > 0 ? ` of ${totalCount.toLocaleString()}` : '')}
           </p>
           <div className="flex gap-2">
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 0}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Prev
             </button>
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={carriers.length < PAGE_SIZE}
-              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="px-3 py-1.5 text-xs font-bold rounded-xl bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
             </button>
           </div>
         </div>
       )}
+
+      {/* ====== CARRIER DETAIL MODAL ====== */}
       {selectedCarrier && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-slate-900 border-2 border-slate-700/50 w-full max-w-7xl max-h-[95vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300">
-            <div className="p-4 md:p-5 border-b border-slate-800 bg-slate-850/30 flex justify-between items-start">
-              <div className="flex gap-4 md:gap-6 items-center">
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-500/10">
-                  <Truck size={20} className="md:w-8 md:h-8" />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-[#F8FAFC] w-full max-w-7xl max-h-[95vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in slide-in-from-bottom-4 duration-300">
+            
+            {/* Modal Header */}
+            <div className="p-5 md:p-6 border-b border-slate-200 bg-white flex justify-between items-start">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <h2 className="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight truncate max-w-[300px] md:max-w-[500px] leading-tight">{selectedCarrier.legalName}</h2>
+                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold border ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-50 text-red-600 border-red-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
+                    {selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'Unauthorized' : 'Authorized'}
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-600 border border-blue-200">
+                    DOT Active
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold border ${selectedCarrier.entityType?.toUpperCase().includes('BROKER') ? 'bg-orange-50 text-orange-600 border-orange-200' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
+                    {selectedCarrier.entityType?.toUpperCase().includes('BROKER') ? 'Broker' : 'Carrier'}
+                  </span>
                 </div>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-3 mb-1">
-                    <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tighter truncate max-w-[300px] md:max-w-[700px] leading-tight">{selectedCarrier.legalName}</h2>
-                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border-2 ${selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'bg-red-500/10 text-red-400 border-red-500/30' : 'bg-green-500/10 text-green-400 border-green-500/30'}`}>
-                      {selectedCarrier.status?.includes('NOT AUTHORIZED') ? 'Unauthorized' : 'Active Authority'}
+                
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => handleCopy(selectedCarrier.dotNumber, 'dot')}
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-sm"
+                  >
+                    <span className="font-bold text-[11px] tracking-wide">
+                      DOT {selectedCarrier.dotNumber}
                     </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 mt-2">
-                    <button 
-                      onClick={() => handleCopy(selectedCarrier.dotNumber, 'dot')}
-                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
-                    >
-                      <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
-                        DOT {selectedCarrier.dotNumber}
-                      </span>
-                      {copiedField === 'dot' ? <Check size={12} className="text-white" /> : <Copy size={12} className="text-white/60" />}
-                    </button>
-                    <button 
-                      onClick={() => handleCopy(selectedCarrier.mcNumber || '', 'mc')}
-                      className="bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-md"
-                    >
-                      <span className="font-black text-[10px] md:text-xs tracking-wide uppercase">
-                        MC {selectedCarrier.mcNumber}
-                      </span>
-                      {copiedField === 'mc' ? <Check size={12} className="text-white" /> : <Copy size={12} className="text-white/60" />}
-                    </button>
-                    <div className={`${selectedCarrier.entityType?.toUpperCase().includes('BROKER') ? 'bg-orange-500' : 'bg-emerald-500'} text-white rounded-lg px-3 py-1.5 shadow-md`}>
-                      <span className="font-black text-[10px] md:text-xs uppercase tracking-wide">
-                        {selectedCarrier.entityType?.toUpperCase().includes('BROKER') ? 'BROKER' : 'CARRIER'}
-                      </span>
-                    </div>
-                  </div>
+                    {copiedField === 'dot' ? <Check size={12} /> : <Copy size={12} className="opacity-70" />}
+                  </button>
+                  <button 
+                    onClick={() => handleCopy(selectedCarrier.mcNumber || '', 'mc')}
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg px-3 py-1.5 flex items-center gap-2 transition-all active:scale-95 shadow-sm"
+                  >
+                    <span className="font-bold text-[11px] tracking-wide">
+                      MC {selectedCarrier.mcNumber}
+                    </span>
+                    {copiedField === 'mc' ? <Check size={12} /> : <Copy size={12} className="opacity-70" />}
+                  </button>
                 </div>
               </div>
-              <button onClick={() => setSelectedDot(null)} className="p-2 text-slate-500 hover:text-white hover:bg-slate-800 rounded-xl transition-all active:scale-75">
+              <button onClick={() => setSelectedDot(null)} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all active:scale-75">
                 <X size={24} />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar bg-slate-900/40">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Hash size={14} className="text-indigo-400" /> Identification
+
+            {/* Modal Body */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+              
+              {/* Row 1 - Three Info Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                {/* Identification Card */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2 mb-4">
+                    <Hash size={14} className="text-slate-400" /> Identification
                   </h3>
-                  <div className="space-y-3">
-                    <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">MC/MX Number</span><span className="text-base font-black text-indigo-400 font-mono tracking-tight">{selectedCarrier.mcNumber}</span></div>
-                    <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">USDOT Number</span><span className="text-base font-black text-white font-mono tracking-tight">{selectedCarrier.dotNumber}</span></div>
-                    <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">DUNS Number</span><span className="text-sm font-bold text-slate-400">{selectedCarrier.dunsNumber || '--'}</span></div>
-                  </div>
-                </div>
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Phone size={14} className="text-indigo-400" /> Contact Info
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Phone size={16} className="text-indigo-400 shrink-0" />
-                      <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">Phone</span><span className="text-base font-black text-white">{selectedCarrier.phone || 'N/A'}</span></div>
+                  <div className="space-y-0 divide-y divide-slate-100">
+                    <div className="flex justify-between items-center py-3 first:pt-0">
+                      <span className="text-xs text-slate-500">MC/MX Number</span>
+                      <span className="text-sm font-semibold text-slate-900 font-mono">{selectedCarrier.mcNumber || 'N/A'}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Mail size={16} className="text-indigo-400 shrink-0" />
-                      <div className="flex flex-col overflow-hidden">
-                        <span className="text-[9px] text-slate-500 font-black uppercase">Email</span>
-                        <span className="text-sm font-black text-indigo-300 truncate">{selectedCarrier.email || 'None Registered'}</span>
-                      </div>
+                    <div className="flex justify-between items-center py-3">
+                      <span className="text-xs text-slate-500">USDOT Number</span>
+                      <span className="text-sm font-semibold text-slate-900 font-mono">{selectedCarrier.dotNumber}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin size={16} className="text-indigo-400 shrink-0" />
-                      <div className="flex flex-col"><span className="text-[9px] text-slate-500 font-black uppercase">Location</span><span className="text-xs font-bold text-slate-300 leading-tight">{selectedCarrier.physicalAddress}</span></div>
+                    <div className="flex justify-between items-center py-3 last:pb-0">
+                      <span className="text-xs text-slate-500">DUNS Number</span>
+                      <span className="text-sm font-semibold text-slate-900">{selectedCarrier.dunsNumber || '--'}</span>
                     </div>
                   </div>
                 </div>
-                <div className="bg-slate-850/60 p-6 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg group">
-                  <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-1 group-hover:text-indigo-400 transition-colors">
-                    <Calendar size={14} className="text-indigo-400" /> Compliance
+
+                {/* Contact Info Card */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2 mb-4">
+                    <Phone size={14} className="text-slate-400" /> Contact Info
                   </h3>
-                  <div className="space-y-3">
-                    <div className="bg-slate-900/50 p-3 rounded-2xl border border-slate-800 shadow-inner">
-                      <div className="flex justify-between items-start mb-1">
-                        <span className="text-[9px] text-slate-500 font-black uppercase">MCS-150 Form Date</span>
+                  <div className="space-y-0 divide-y divide-slate-100">
+                    <div className="flex justify-between items-center py-3 first:pt-0">
+                      <span className="text-xs text-slate-500">Phone</span>
+                      <span className="text-sm font-semibold text-slate-900">{selectedCarrier.phone || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3">
+                      <span className="text-xs text-slate-500">Email</span>
+                      <span className="text-sm font-semibold text-blue-600 truncate max-w-[160px]">{selectedCarrier.email || 'None'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3 last:pb-0">
+                      <span className="text-xs text-slate-500">Location</span>
+                      <span className="text-xs font-medium text-slate-900 text-right max-w-[180px] leading-tight">{selectedCarrier.physicalAddress || 'N/A'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compliance Card */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2 mb-4">
+                    <Calendar size={14} className="text-slate-400" /> Compliance
+                  </h3>
+                  <div className="space-y-0 divide-y divide-slate-100">
+                    <div className="flex justify-between items-center py-3 first:pt-0">
+                      <span className="text-xs text-slate-500">MCS-150 Date</span>
+                      <div className="text-right">
+                        <span className="text-sm font-semibold text-slate-900 block">{selectedCarrier.mcs150Date || 'N/A'}</span>
                         {calculateYearsInBusiness(selectedCarrier.mcs150Date) !== null && (
-                          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-tighter">
-                            {calculateYearsInBusiness(selectedCarrier.mcs150Date)} Years in Business
+                          <span className="text-[10px] font-medium text-emerald-600">
+                            {calculateYearsInBusiness(selectedCarrier.mcs150Date)} yrs in business
                           </span>
                         )}
                       </div>
-                      <span className="text-base font-black text-white">{selectedCarrier.mcs150Date || 'N/A'}</span>
                     </div>
-                    <div className="bg-slate-900/50 p-3 rounded-2xl border border-slate-800 shadow-inner">
-                      <span className="text-[9px] text-slate-500 font-black uppercase block mb-1">Mileage / VMT</span>
-                      <span className="text-sm font-bold text-slate-300">{selectedCarrier.mcs150Mileage || 'N/A'}</span>
+                    <div className="flex justify-between items-center py-3">
+                      <span className="text-xs text-slate-500">MCS-150 Mileage</span>
+                      <span className="text-sm font-semibold text-slate-900">{selectedCarrier.mcs150Mileage || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3 last:pb-0">
+                      <span className="text-xs text-slate-500">VMT Year</span>
+                      <span className="text-sm font-semibold text-slate-900">--</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl">
-                  <div className="flex items-center gap-3">
-                    <Truck size={20} className="text-indigo-400" />
-                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Operation Information</h4>
+
+              {/* Row 2 - Operation Info & Fleet Statistics */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+                {/* Operation Information */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="flex items-center gap-2 mb-5">
+                    <Truck size={16} className="text-slate-400" />
+                    <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">Operation Information</h4>
                   </div>
-                  <div className="space-y-6">
+                  <div className="space-y-5">
                     <div>
-                      <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Classifications</h5>
-                      <p className="text-sm font-bold text-slate-200 bg-slate-900/50 p-3 rounded-xl border border-slate-800">
-                        {selectedCarrier.operationClassification?.join(', ') || 'N/A'}
-                      </p>
+                      <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Classifications</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedCarrier.operationClassification?.map((cls, idx) => (
+                          <span key={idx} className="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200 font-medium text-xs">{cls}</span>
+                        )) || <span className="text-sm text-slate-400">N/A</span>}
+                      </div>
                     </div>
                     <div>
-                      <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Operating Territory</h5>
+                      <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Operating Territory</h5>
                       <div className="flex flex-wrap gap-2">
                         {selectedCarrier.carrierOperation?.map((op, idx) => (
-                          <span key={idx} className="bg-indigo-500/10 text-indigo-300 px-3 py-1 rounded-lg border border-indigo-500/20 font-bold text-[10px] uppercase">{op}</span>
+                          <span key={idx} className={`px-3 py-1.5 rounded-full font-medium text-xs border ${op.toLowerCase().includes('interstate') && !op.toLowerCase().includes('intrastate') ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>{op}</span>
                         ))}
                       </div>
                     </div>
                     <div>
-                      <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Cargo Carried</h5>
-                      <div className="grid grid-cols-1 gap-2">
+                      <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Cargo Carried</h5>
+                      <div className="flex flex-wrap gap-2">
                         {selectedCarrier.cargoCarried?.map((cargo, idx) => (
-                          <div key={idx} className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex items-center gap-3">
-                            <Truck size={14} className="text-slate-600" />
-                            <span className="text-xs font-bold text-slate-300">{cargo}</span>
-                          </div>
+                          <span key={idx} className="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200 font-medium text-xs">{cargo}</span>
                         ))}
                       </div>
                     </div>
-                    <div className={`w-full py-4 rounded-2xl flex items-center justify-center font-black tracking-widest text-xs border-2 ${selectedCarrier.cargoCarried?.some(c => c.toLowerCase().includes('haz')) ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'}`}>
+                    <div className={`w-full py-3 rounded-xl flex items-center justify-center font-bold tracking-wide text-xs border ${selectedCarrier.cargoCarried?.some(c => c.toLowerCase().includes('haz')) ? 'bg-red-50 text-red-600 border-red-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
                       {selectedCarrier.cargoCarried?.some(c => c.toLowerCase().includes('haz')) ? 'HAZMAT INDICATOR: YES' : 'HAZMAT INDICATOR: NON-HAZMAT'}
-                    </div>
-                    <div className="h-px bg-slate-800/50 my-2" />
-                    <div>
-                      <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Fleet Information</h5>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
-                          <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Power Units</span>
-                          <span className="text-lg font-black text-white">{selectedCarrier.powerUnits || '0'}</span>
-                        </div>
-                        <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl flex flex-col items-center">
-                          <span className="text-[9px] text-slate-500 font-black uppercase mb-1">Drivers</span>
-                          <span className="text-lg font-black text-white">{selectedCarrier.drivers || '0'}</span>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col shadow-2xl">
-                  <div className="flex items-center gap-3 mb-8">
-                    <ShieldCheck size={20} className="text-emerald-400" />
-                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Insurance History</h4>
+
+                {/* Fleet Statistics */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2">
+                      <Boxes size={16} className="text-slate-400" />
+                      <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">Fleet Statistics</h4>
+                    </div>
+                    <span className="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold">
+                      Fleet Size: {selectedCarrier.powerUnits || '0'}
+                    </span>
                   </div>
-                  <div className="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
-                    {activeInsurance.length > 0 ? (
-                      activeInsurance.map((p, i) => (
-                        <div key={i} className={`bg-slate-900 p-6 rounded-[1.5rem] border shadow-sm group/policy hover:border-indigo-500/30 transition-all ${p.canclEffectiveDate ? 'border-red-800/40' : 'border-slate-800'}`}>
-                          <div className="flex justify-between items-start mb-4">
-                            <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest border border-indigo-500/10 px-2 py-0.5 rounded-lg">{p.type}</span>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-lg ${p.canclEffectiveDate ? 'text-red-400 bg-red-500/10 border border-red-500/20' : 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'}`}>{p.status}</span>
-                              <span className="text-xl font-black text-white">{p.coverageAmount}</span>
-                            </div>
-                          </div>
-                          <p className="text-sm font-black text-slate-200 mb-4 truncate leading-tight group-hover/policy:text-indigo-300 transition-colors uppercase">{p.carrier}</p>
-                          <div className="flex gap-3 mb-4">
-                            {p.formCode && <span className="text-[10px] font-bold text-slate-400 bg-slate-800 px-2 py-1 rounded-lg uppercase">Form: {p.formCode}</span>}
-                            {p.transDate && <span className="text-[10px] font-bold text-slate-400 bg-slate-800 px-2 py-1 rounded-lg uppercase">Trans: {p.transDate}</span>}
-                          </div>
-                          <div className="flex justify-between items-center pt-4 border-t border-slate-800/50">
-                            <span className="text-sm font-bold text-white">#{p.policyNumber}</span>
-                            <span className="text-sm font-bold text-white">EFF: {p.effectiveDate}</span>
-                          </div>
-                          {p.effectiveDate && p.effectiveDate !== 'N/A' && !p.canclEffectiveDate && (() => {
-                            try {
-                              const parts = p.effectiveDate.split('/');
-                              if (parts.length === 3) {
-                                const month = parseInt(parts[0], 10);
-                                const day = parseInt(parts[1], 10);
-                                const now = new Date();
-                                let renewalYear = now.getFullYear();
-                                const candidate = new Date(renewalYear, month - 1, day);
-                                if (candidate <= now) renewalYear += 1;
-                                const renewal = new Date(renewalYear, month - 1, day);
-                                const renewalStr = `${String(renewal.getMonth() + 1).padStart(2, '0')}/${String(renewal.getDate()).padStart(2, '0')}/${renewal.getFullYear()}`;
-                                return (
-                                  <div className="mt-1">
-                                    <span className="text-sm font-bold text-indigo-300">Renewal: {renewalStr}</span>
-                                  </div>
-                                );
-                              }
-                            } catch { /* ignore parse errors */ }
-                            return null;
-                          })()}
-                          {p.canclEffectiveDate && (
-                            <div className="mt-3 pt-3 border-t border-red-800/30">
-                              <span className="text-[13px] font-bold text-red-400 uppercase">Cancellation: {p.canclEffectiveDate}</span>
-                            </div>
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-20 text-slate-700 text-center">
-                        <Info size={48} className="opacity-10 mb-4" />
-                        <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">No Insurance Records</p>
-                        <p className="text-[10px] text-slate-600 max-w-[180px] leading-relaxed italic">No insurance records found in the database.</p>
-                      </div>
-                    )}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center">
+                      <Truck size={20} className="text-blue-500 mb-2" />
+                      <span className="text-2xl font-extrabold text-slate-900">{selectedCarrier.powerUnits || '0'}</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Power Units</span>
+                    </div>
+                    <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center">
+                      <Activity size={20} className="text-blue-500 mb-2" />
+                      <span className="text-2xl font-extrabold text-slate-900">{selectedCarrier.drivers || '0'}</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Drivers</span>
+                    </div>
+                    <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center">
+                      <Truck size={20} className="text-slate-400 mb-2" />
+                      <span className="text-2xl font-extrabold text-slate-900">--</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Truck Units</span>
+                    </div>
+                    <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center">
+                      <Boxes size={20} className="text-slate-400 mb-2" />
+                      <span className="text-2xl font-extrabold text-slate-900">--</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Bus Units</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-slate-850/40 p-8 rounded-[2rem] border border-slate-800 flex flex-col gap-6 shadow-2xl relative">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <ShieldCheck size={20} className="text-indigo-400" />
-                      <h4 className="text-xl font-black text-white uppercase tracking-tight">Safety Information</h4>
+
+              {/* Row 3 - Insurance History */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-slate-400" />
+                    <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">Insurance History</h4>
+                  </div>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition-all shadow-sm">
+                    <Download size={14} /> Export PDF
+                  </button>
+                </div>
+                {activeInsurance.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-slate-200">
+                          <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Type / Provider</th>
+                          <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Policy Details</th>
+                          <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Dates</th>
+                          <th className="text-right py-3 px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Coverage Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {activeInsurance.map((p, i) => (
+                          <tr key={i} className="hover:bg-slate-50 transition-colors">
+                            <td className="py-3 px-4">
+                              <span className="inline-block bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded-md text-[10px] font-bold mb-1">{p.type}</span>
+                              <p className="text-xs font-semibold text-slate-900 truncate max-w-[200px]">{p.carrier}</p>
+                            </td>
+                            <td className="py-3 px-4">
+                              <p className="text-xs font-mono text-slate-700">#{p.policyNumber}</p>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${p.canclEffectiveDate ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'}`}>{p.status}</span>
+                            </td>
+                            <td className="py-3 px-4">
+                              <p className="text-xs text-slate-700">Eff: {p.effectiveDate}</p>
+                              {p.canclEffectiveDate && (
+                                <p className="text-xs text-red-500">Cancel: {p.canclEffectiveDate}</p>
+                              )}
+                              {p.effectiveDate && p.effectiveDate !== 'N/A' && !p.canclEffectiveDate && (() => {
+                                try {
+                                  const parts = p.effectiveDate.split('/');
+                                  if (parts.length === 3) {
+                                    const month = parseInt(parts[0], 10);
+                                    const day = parseInt(parts[1], 10);
+                                    const now = new Date();
+                                    let renewalYear = now.getFullYear();
+                                    const candidate = new Date(renewalYear, month - 1, day);
+                                    if (candidate <= now) renewalYear += 1;
+                                    const renewal = new Date(renewalYear, month - 1, day);
+                                    const renewalStr = `${String(renewal.getMonth() + 1).padStart(2, '0')}/${String(renewal.getDate()).padStart(2, '0')}/${renewal.getFullYear()}`;
+                                    return <p className="text-xs text-blue-600 font-medium">Renewal: {renewalStr}</p>;
+                                  }
+                                } catch { /* ignore parse errors */ }
+                                return null;
+                              })()}
+                            </td>
+                            <td className="py-3 px-4 text-right">
+                              <span className="text-base font-extrabold text-slate-900">{p.coverageAmount}</span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <Info size={36} className="text-slate-300 mb-3" />
+                    <p className="text-sm font-bold text-slate-500 mb-1">No Insurance Records</p>
+                    <p className="text-xs text-slate-400">No insurance records found in the database.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Row 4 - Safety & Inspections */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {/* Safety Information */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck size={16} className="text-slate-400" />
+                      <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">Safety Information</h4>
                     </div>
-                    <a href={`https://ai.fmcsa.dot.gov/SMS/Carrier/${selectedCarrier.dotNumber}/CompleteProfile.aspx`} target="_blank" className="text-[10px] font-bold text-indigo-400 flex items-center gap-1 hover:text-white transition-colors">
+                    <a href={`https://ai.fmcsa.dot.gov/SMS/Carrier/${selectedCarrier.dotNumber}/CompleteProfile.aspx`} target="_blank" className="text-[10px] font-bold text-blue-600 flex items-center gap-1 hover:text-blue-800 transition-colors">
                       <ExternalLink size={12} /> View FMCSA Source
                     </a>
                   </div>
                   {selectedCarrier.safetyRating && selectedCarrier.safetyRating !== 'N/A' ? (
-                    <div className="space-y-8 animate-in fade-in duration-500">
+                    <div className="space-y-6 animate-in fade-in duration-500">
                       <div className="flex justify-between items-start">
-                        <div className="space-y-4">
-                          <h5 className="text-xs font-bold text-slate-100">Safety Rating</h5>
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                              <CheckCircle2 size={24} />
+                        <div className="space-y-3">
+                          <h5 className="text-xs font-bold text-slate-700">Safety Rating</h5>
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-500">
+                              <CheckCircle2 size={22} />
                             </div>
                             <div>
-                              <p className="text-sm font-black text-slate-200 leading-tight uppercase">{selectedCarrier.safetyRating}</p>
-                              <p className="text-[11px] text-slate-500 font-medium font-mono">ENRICHED: {selectedCarrier.safetyRatingDate}</p>
+                              <p className="text-sm font-bold text-slate-900 uppercase">{selectedCarrier.safetyRating}</p>
+                              <p className="text-[10px] text-slate-500 font-mono">ENRICHED: {selectedCarrier.safetyRatingDate}</p>
                             </div>
                           </div>
                         </div>
-                        <div className="flex-1 max-w-[180px] space-y-4">
+                        <div className="flex-1 max-w-[180px] space-y-3">
                           <div className="space-y-1">
-                            <h5 className="text-xs font-bold text-slate-100">OOS Rates</h5>
-                            <p className="text-[9px] text-slate-500 font-mono tracking-tighter uppercase">Last 24 Months Activity</p>
+                            <h5 className="text-xs font-bold text-slate-700">OOS Rates</h5>
+                            <p className="text-[9px] text-slate-400 font-mono uppercase">Last 24 Months Activity</p>
                           </div>
                           {selectedCarrier.oosRates?.map((oos, idx) => (
                             <div key={idx} className="space-y-1">
-                              <div className="flex justify-between text-[10px] font-black uppercase">
+                              <div className="flex justify-between text-[10px] font-bold uppercase">
                                 <span className="text-slate-500 truncate mr-2">{oos.type}</span>
-                                <span className="text-emerald-400">{oos.rate}</span>
+                                <span className="text-emerald-600">{oos.rate}</span>
                               </div>
-                              <div className="w-full bg-slate-800/50 rounded-full h-1 relative overflow-hidden">
-                                <div className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full" style={{ width: `${parseFloat(oos.rate) || 0}%` }} />
+                              <div className="w-full bg-slate-100 rounded-full h-1.5 relative overflow-hidden">
+                                <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${parseFloat(oos.rate) || 0}%` }} />
                               </div>
                             </div>
                           ))}
                         </div>
                       </div>
-                      <div className="h-px bg-slate-800/50" />
-                      <div className="space-y-4">
-                        <h5 className="text-xs font-black text-slate-100 uppercase tracking-widest opacity-80">BASIC Performance</h5>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                      <div className="h-px bg-slate-100" />
+                      <div className="space-y-3">
+                        <h5 className="text-xs font-bold text-slate-700 uppercase tracking-widest">BASIC Performance</h5>
+                        <div className="grid grid-cols-2 gap-x-6 gap-y-2">
                           {selectedCarrier.basicScores?.map((score, idx) => (
-                            <div key={idx} className="flex justify-between items-center text-xs">
+                            <div key={idx} className="flex justify-between items-center text-xs py-1">
                               <span className="text-slate-500 truncate max-w-[120px]">{score.category}</span>
-                              <span className="text-slate-300 font-bold font-mono">{score.measure}</span>
+                              <span className="text-slate-900 font-bold font-mono">{score.measure}</span>
                             </div>
                           ))}
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center py-20 text-slate-700 text-center space-y-4">
-                      <div className="p-6 bg-slate-800/30 rounded-full"><ShieldAlert size={48} className="opacity-20 text-indigo-500" /></div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Record Not Enriched</p>
-                      <button onClick={() => { setSelectedDot(null); onNavigateToInsurance(); }} className="text-[10px] font-black text-indigo-400 hover:text-white uppercase transition-colors bg-indigo-500/5 px-4 py-2 rounded-lg border border-indigo-500/10">Launch Pipeline now</button>
+                    <div className="flex-1 flex flex-col items-center justify-center py-16 text-center space-y-3">
+                      <div className="p-5 bg-slate-50 rounded-full"><ShieldAlert size={40} className="text-slate-300" /></div>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Record Not Enriched</p>
+                      <button onClick={() => { setSelectedDot(null); onNavigateToInsurance(); }} className="text-[10px] font-bold text-blue-600 hover:text-blue-800 uppercase transition-colors bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">Launch Pipeline now</button>
                     </div>
                   )}
                 </div>
-                <div className="bg-white rounded-[2rem] p-8 flex flex-col shadow-xl text-slate-900">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Activity size={20} className="text-slate-700" />
-                    <h4 className="text-xl font-black uppercase tracking-tight">Inspections & Crashes</h4>
+
+                {/* Inspections & Crashes */}
+                <div className="bg-white rounded-2xl p-6 flex flex-col shadow-sm border border-slate-200">
+                  <div className="flex items-center gap-2 mb-5">
+                    <Activity size={16} className="text-slate-400" />
+                    <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">Inspections & Crashes</h4>
                   </div>
-                  <div className="flex bg-slate-100 p-1 rounded-xl mb-6">
+                  <div className="flex bg-slate-100 p-1 rounded-xl mb-5">
                     <button 
                       onClick={() => setActiveTab('inspections')}
                       className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'inspections' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
@@ -948,86 +1014,86 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                       Crashes
                     </button>
                   </div>
-                  <div className="grid grid-cols-4 gap-4 mb-6">
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                  <div className="grid grid-cols-4 gap-3 mb-5">
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
                       <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Total</span>
-                      <span className="text-xl font-black">{activeTab === 'inspections' ? selectedCarrier.inspections?.length || 0 : selectedCarrier.crashes?.length || 0}</span>
+                      <span className="text-xl font-extrabold text-slate-900">{activeTab === 'inspections' ? selectedCarrier.inspections?.length || 0 : selectedCarrier.crashes?.length || 0}</span>
                     </div>
-                    <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100 text-center">
+                    <div className="bg-blue-50 p-3 rounded-xl border border-blue-100 text-center">
                       <span className="text-[10px] font-bold text-blue-400 uppercase block mb-1">Violations</span>
-                      <span className="text-xl font-black text-blue-600">
+                      <span className="text-xl font-extrabold text-blue-600">
                         {selectedCarrier.inspections?.reduce((acc, curr) => acc + (curr.violationList?.length || 0), 0) || 0}
                       </span>
                     </div>
-                    <div className="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
+                    <div className="bg-red-50 p-3 rounded-xl border border-red-100 text-center">
                       <span className="text-[10px] font-bold text-red-400 uppercase block mb-1">OOS</span>
-                      <span className="text-xl font-black text-red-600">
+                      <span className="text-xl font-extrabold text-red-600">
                         {selectedCarrier.inspections?.reduce((acc, curr) => acc + (curr.oosViolations || 0), 0) || 0}
                       </span>
                     </div>
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
                       <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Crashes</span>
-                      <span className="text-xl font-black">{selectedCarrier.crashes?.length || 0}</span>
+                      <span className="text-xl font-extrabold text-slate-900">{selectedCarrier.crashes?.length || 0}</span>
                     </div>
                   </div>
                   <div className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
                     {activeTab === 'inspections' ? (
                       selectedCarrier.inspections?.map((insp, i) => (
-                        <div key={i} className="border border-slate-100 rounded-2xl overflow-hidden group">
+                        <div key={i} className="border border-slate-200 rounded-xl overflow-hidden group">
                           <div 
                             className="p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors"
                             onClick={() => setExpandedInspection(expandedInspection === insp.reportNumber ? null : insp.reportNumber)}
                           >
                             <div>
-                              <p className="text-sm font-black">{insp.date}</p>
+                              <p className="text-sm font-bold text-slate-900">{insp.date}</p>
                               <p className="text-[11px] text-slate-500">{insp.location}</p>
                             </div>
                             <div className="flex items-center gap-2">
                               {insp.violationList?.length > 0 && (
-                                <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-lg text-[10px] font-black">
+                                <span className="bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-lg text-[10px] font-bold">
                                   {insp.violationList.length} Violations
                                 </span>
                               )}
                               {insp.oosViolations > 0 && (
-                                <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded-lg text-[10px] font-black">OOS</span>
+                                <span className="bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-lg text-[10px] font-bold">OOS</span>
                               )}
-                              {expandedInspection === insp.reportNumber ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                              {expandedInspection === insp.reportNumber ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
                             </div>
                           </div>
                           
                           {expandedInspection === insp.reportNumber && (
-                            <div className="px-4 pb-4 pt-4 border-t border-slate-100 bg-[#F8F9FA]">
+                            <div className="px-4 pb-4 pt-4 border-t border-slate-100 bg-slate-50">
                               <div className="grid grid-cols-3 grid-rows-2 gap-y-4 gap-x-6 mb-6">
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">Report #:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.reportNumber}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">Report #:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.reportNumber}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">Location:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.location}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">Location:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.location}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">OOS Violations:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.oosViolations}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">OOS Violations:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.oosViolations}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">Driver Violations:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.driverViolations}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">Driver Violations:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.driverViolations}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">Vehicle Violations:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.vehicleViolations}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">Vehicle Violations:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.vehicleViolations}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)]">Hazmat Violations:</span>
-                                  <span className="text-[14px] leading-[20px] font-medium text-[oklch(0.372_0.044_257.287)]">{insp.hazmatViolations}</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500">Hazmat Violations:</span>
+                                  <span className="text-[14px] leading-[20px] font-medium text-slate-900">{insp.hazmatViolations}</span>
                                 </div>
                               </div>
                               {insp.violationList?.length > 0 && (
                                 <div className="space-y-2 mt-4 pt-4 border-t border-slate-200">
-                                  <span className="text-[12px] leading-[16px] font-normal text-[oklch(0.554_0.046_257.417)] uppercase tracking-wider">Violation Details</span>
+                                  <span className="text-[12px] leading-[16px] font-normal text-slate-500 uppercase tracking-wider">Violation Details</span>
                                   {insp.violationList.map((v: any, vi: number) => (
-                                    <div key={vi} className="bg-white p-3 rounded-xl border border-slate-200 text-[11px] relative group/viol shadow-sm">
+                                    <div key={vi} className="bg-white p-3 rounded-xl border border-slate-200 text-[11px] shadow-sm">
                                       <div className="flex justify-between font-bold mb-1">
                                         <span className="text-blue-600">{v.label}</span>
                                         <span className="text-slate-400">Weight: {v.weight}</span>
@@ -1043,14 +1109,14 @@ export const CarrierSearch: React.FC<CarrierSearchProps> = ({ onNavigateToInsura
                       ))
                     ) : (
                       selectedCarrier.crashes?.map((crash: any, i: number) => (
-                        <div key={i} className="p-4 border border-slate-100 rounded-2xl flex justify-between items-center">
+                        <div key={i} className="p-4 border border-slate-200 rounded-xl flex justify-between items-center hover:bg-slate-50 transition-colors">
                           <div>
-                            <p className="text-sm font-black">{crash.date}</p>
+                            <p className="text-sm font-bold text-slate-900">{crash.date}</p>
                             <p className="text-[11px] text-slate-500">{crash.state} | {crash.number}</p>
                           </div>
                           <div className="flex gap-2">
-                            {parseInt(crash.fatal) > 0 && <span className="bg-red-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-black">FATAL</span>}
-                            {parseInt(crash.injuries) > 0 && <span className="bg-orange-500 text-white px-2 py-0.5 rounded-lg text-[10px] font-black">INJURY</span>}
+                            {parseInt(crash.fatal) > 0 && <span className="bg-red-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold">FATAL</span>}
+                            {parseInt(crash.injuries) > 0 && <span className="bg-orange-500 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold">INJURY</span>}
                           </div>
                         </div>
                       )) || <p className="text-center py-10 text-slate-400 italic">No crash records found</p>
