@@ -16,18 +16,18 @@ import { fetchCarriersFromSupabase, CarrierFiltersSupabase } from './services/su
 import { ErrorBoundary } from './components/ErrorBoundary';
 const SettingsPage: React.FC<{ user: User }> = ({ user }) => (
   <div className="p-8 max-w-2xl mx-auto animate-fade-in">
-    <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">Settings</h2>
-    <p className="text-slate-500 text-sm mb-6">Manage your account preferences</p>
-    <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 space-y-1">
+    <h2 className="text-2xl font-bold text-slate-800 mb-2 tracking-tight">Settings</h2>
+    <p className="text-slate-400 text-sm mb-6">Manage your account preferences</p>
+    <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-1 shadow-sm">
       {[
         { label: 'Email', value: user.email },
         { label: 'Role', value: user.role },
         { label: 'Plan', value: user.plan },
         { label: 'Daily Limit', value: `${user.dailyLimit.toLocaleString()} records` },
       ].map((item, i, arr) => (
-        <div key={i} className={`flex justify-between items-center py-3.5 ${i < arr.length - 1 ? 'border-b border-white/[0.04]' : ''}`}>
+        <div key={i} className={`flex justify-between items-center py-3.5 ${i < arr.length - 1 ? 'border-b border-slate-100' : ''}`}>
           <span className="text-slate-500 text-sm">{item.label}</span>
-          <span className="text-white text-sm font-medium capitalize">{item.value}</span>
+          <span className="text-slate-800 text-sm font-medium capitalize">{item.value}</span>
         </div>
       ))}
     </div>
@@ -155,7 +155,7 @@ const App: React.FC = () => {
   }
   return (
     <ErrorBoundary>
-      <div className="flex min-h-screen text-slate-200 font-sans selection:bg-indigo-500/30" style={{ background: '#080E1A' }}>
+      <div className="flex min-h-screen text-slate-700 font-sans selection:bg-blue-500/20" style={{ background: '#F8FAFC' }}>
         <Sidebar 
           currentView={currentView} 
           setCurrentView={handleViewChange} 
@@ -164,9 +164,6 @@ const App: React.FC = () => {
         />
         
         <main className="flex-1 ml-60 relative h-screen overflow-y-auto overflow-x-hidden">
-          {/* Ambient glow */}
-          <div className="fixed top-0 left-60 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent pointer-events-none" />
-          <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/4" />
           {user && renderContent()}
         </main>
       </div>
